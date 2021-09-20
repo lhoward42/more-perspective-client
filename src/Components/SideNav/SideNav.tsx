@@ -41,11 +41,8 @@ class SideNav extends Component<SideNavProps,SideNavState> {
           <Route exact path="/">
               {/* <Home /> */}
           </Route>
-          <Route exact path="/login">
-              {/* <Login /> */}
-          </Route>
-          <Route exact path="/register">
-              {/* <Register /> */}
+          <Route exact path="/portal">
+              {/* <Portal /> */}
           </Route>
           <Route exact path="/news">
               {/* <News /> */}
