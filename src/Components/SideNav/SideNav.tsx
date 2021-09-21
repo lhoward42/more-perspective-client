@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { bool } from 'prop-types';
 import { StyledMenu } from './Menu.styled'
+import Portal from '../Auth/Portal'
 
 
 
@@ -42,7 +43,7 @@ class SideNav extends Component<SideNavProps,SideNavState> {
               {/* <Home /> */}
           </Route>
           <Route exact path="/portal">
-              {/* <Portal /> */}
+              <Portal token={this.props.token} newToken={this.props.newToken} logout={this.props.logout}/>
           </Route>
           <Route exact path="/news">
               {/* <News /> */}
