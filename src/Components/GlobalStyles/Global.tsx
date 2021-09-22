@@ -1,7 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
+import { theme } from './Theme';
+type PassedProps = {
+  color: boolean
+}
 
-
-export const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle<PassedProps>`
   html, body {
     margin: 0;
     padding: 0;
@@ -11,8 +14,8 @@ export const GlobalStyles = createGlobalStyle`
   }
   body {
     align-items: center;
-    background: ${({ theme }) => theme.primaryDark};
-    color: ${({ theme }) => theme.primaryLight};
+    background: ${ props => props.color === true ? theme.light.primaryDark : theme.dark.primaryDark};
+    color: ${({ theme }) => theme.light};
     display: flex;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     height: 100vh;

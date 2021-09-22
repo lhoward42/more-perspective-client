@@ -36,27 +36,28 @@ userLogin = () => {
         email: this.props.email,
         password: this.props.password,
     }
-
-    fetch(`${APIURL}/user/login`, {
-        method: "POST",
-        headers: new Headers({
-            "Content-TYpe": "application/json",
-        }),
-        body: JSON.stringify(userData)
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        let dataToken = data.sessionToken;
-        this.props.newToken(dataToken)
-        this.setState({
-            localToken: dataToken
+ const postLogin = async () => {
+        await fetch(`${APIURL}/user/login`, {
+            method: "POST",
+            headers: new Headers({
+                "Content-TYpe": "application/json",
+            }),
+            body: JSON.stringify(userData)
         })
-        console.log(data);
+        .then((res) => res.json())
+        .then((data) => {
+            let dataToken = data.sessionToken;
+            this.props.newToken(dataToken)
+            this.setState({
+                localToken: dataToken
+            })
+            console.log(data);
         
-    })
+        })
     .catch((err) => {
         console.error(err)
-    })
+    })}
+    postLogin()
 }
 
     render(){

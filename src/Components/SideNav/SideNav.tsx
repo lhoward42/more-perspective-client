@@ -11,20 +11,20 @@ type SideNavProps = {
     logout(): void,
     newToken(newToken: string ): void,
     isOpen: boolean, 
-    setOpen(): void
+    setOpen(): void,
+    color: boolean
+    
 }
-type SideNavState = {
-    token: string
-}
+type SideNavState = {}
 
-class SideNav extends Component<SideNavProps,SideNavState> {
+class SideNav extends Component<SideNavProps, SideNavState> {
 
     render(){
-        const { token, isOpen } = this.props
+        const { token, isOpen, color } = this.props
         return(
             <>
             <Router>
-            <StyledMenu open={isOpen} >
+            <StyledMenu open={isOpen} color={color}>
                 <Link to="/">
                     <span>Home</span>
                 </Link>

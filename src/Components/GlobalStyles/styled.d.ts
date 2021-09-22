@@ -6,9 +6,17 @@ interface IPalette {
 }
 declare module 'styled-components' {
   export interface DefaultTheme {
-    primaryDark: string
-    primaryLight: string
-    primaryHover: string
-    mobile: string
+    light: {
+      primaryDark: string,
+      primaryLight: string,
+      primaryHover: string,
+      mobile: string,
+      },
+    dark: {
+      primaryDark: string,
+      primaryLight: string,
+      primaryHover: string,
+      mobile: string,
+    }
    }
 }

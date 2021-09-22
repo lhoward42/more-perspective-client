@@ -4,6 +4,7 @@ import { StyledBurger } from './Burger.styled';
 type PassedProps = {
   isOpen: boolean
   setOpen(): void
+  
 }
 
 class Burger extends Component<PassedProps, {}> {
@@ -13,7 +14,7 @@ class Burger extends Component<PassedProps, {}> {
   render(){
     const { isOpen, setOpen } = this.props
   return (
-    <StyledBurger aria-expanded={ isOpen ? true : false } open= {isOpen} onClick={() => setOpen()}>
+    <StyledBurger aria-expanded={ isOpen ? true : false } open= {isOpen} onClick={() => setOpen()} >
       <span />
       <span />
       <span />
