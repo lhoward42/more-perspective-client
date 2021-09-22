@@ -11,7 +11,7 @@ type AppProps = {};
 type AppState = {
   token: string | null;
   open: boolean;
-  color: boolean;
+  colorMode: boolean;
 };
 
 class App extends Component<AppProps, AppState> {
@@ -20,7 +20,7 @@ class App extends Component<AppProps, AppState> {
     this.state = {
       token: "",
       open: false,
-      color: true,
+      colorMode: true,
     };
   }
 
@@ -47,7 +47,7 @@ class App extends Component<AppProps, AppState> {
   };
 
   colorModeToggle = () => {
-    this.setState({ color: !this.state.color });
+    this.setState({ colorMode: !this.state.colorMode });
   };
 
   navToggle = () => {
@@ -55,23 +55,23 @@ class App extends Component<AppProps, AppState> {
   };
 
   render() {
-    const { token, open, color } = this.state;
+    const { token, open, colorMode } = this.state;
     return (
       <>
         <ThemeProvider theme={theme}>
           <input type='submit' onClick={() => this.colorModeToggle()} />
 
-          <GlobalStyles color={color} />
+          <GlobalStyles color={colorMode} />
 
           <SideNav
-            color={color}
+            colorMode={colorMode}
             isOpen={open}
             setOpen={this.navToggle}
             token={token}
             logout={this.clearToken}
             newToken={this.updateToken}
           />
-          <Burger isOpen={open} setOpen={this.navToggle} />
+          <Burger colorMode={colorMode} isOpen={open} setOpen={this.navToggle} />
         </ThemeProvider>
       </>
     );

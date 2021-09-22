@@ -10,12 +10,14 @@ declare module 'styled-components' {
       primaryDark: string,
       primaryLight: string,
       primaryHover: string,
+      menuBackground: string,
       mobile: string,
       },
     dark: {
       primaryDark: string,
       primaryLight: string,
       primaryHover: string,
+      menuBackground: string
       mobile: string,
     }
    }

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 type PassedProps = {
   open: boolean
-  
+  colorMode: any
 }
 
 export const StyledBurger = styled.button<PassedProps>`
@@ -23,7 +23,7 @@ export const StyledBurger = styled.button<PassedProps>`
   span {
     width: 2rem;
     height: 0.25rem;
-    background: ${({ theme, open }) => open ? theme.light.primaryDark : theme.light.primaryLight};
+    background: ${({ open }) => open ? "white" : "grey"};
     border-radius: 10px;
     transition: all 0.3s linear;
     position: relative;
