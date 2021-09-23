@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link, Route, Switch, Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./Components/GlobalStyles/Global";
 import { theme } from "./Components/GlobalStyles/Theme";
@@ -58,9 +57,22 @@ class App extends Component<AppProps, AppState> {
     const { token, open, colorMode } = this.state;
     return (
       <>
-        <ThemeProvider theme={theme}>
-          <input type='submit' onClick={() => this.colorModeToggle()} />
+        {/* <div className='toggle-div'>
+          <input
+            className='toggle'
+            type='radio'
+            onClick={() => this.colorModeToggle()}
+          />
+        </div> */}
 
+        <div className='theme-switch-wrapper'>
+          <label className='theme-switch'>
+            <input type='checkbox' id='checkbox' onClick={() => this.colorModeToggle()} />
+            <div className='slider round'></div>
+          </label>
+          <em>Enable Dark Mode!</em>
+        </div>
+        <ThemeProvider theme={theme}>
           <GlobalStyles color={colorMode} />
 
           <SideNav
@@ -71,7 +83,11 @@ class App extends Component<AppProps, AppState> {
             logout={this.clearToken}
             newToken={this.updateToken}
           />
-          <Burger colorMode={colorMode} isOpen={open} setOpen={this.navToggle} />
+          <Burger
+            colorMode={colorMode}
+            isOpen={open}
+            setOpen={this.navToggle}
+          />
         </ThemeProvider>
       </>
     );

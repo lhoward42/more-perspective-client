@@ -3,6 +3,7 @@ import {Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { bool } from 'prop-types';
 import { StyledMenu } from './Menu.styled'
 import Portal from '../Auth/Portal'
+import SearchNews from '../Search/index'
 
 
 
@@ -46,7 +47,7 @@ class SideNav extends Component<SideNavProps, SideNavState> {
               <Portal token={this.props.token} newToken={this.props.newToken} logout={this.props.logout}/>
           </Route>
           <Route exact path="/news">
-              {/* <News /> */}
+              <SearchNews />
           </Route>
          
           <Route exact path="/viewStory">
