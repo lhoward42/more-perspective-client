@@ -44,10 +44,10 @@ class SideNav extends Component<SideNavProps, SideNavState> {
               {/* <Home /> */}
           </Route>
           <Route exact path="/portal">
-              <Portal token={this.props.token} newToken={this.props.newToken} logout={this.props.logout}/>
+              <Portal token={token} newToken={this.props.newToken} logout={this.props.logout}/>
           </Route>
           <Route exact path="/news">
-              <SearchNews />
+              <SearchNews colorMode={colorMode}/>
           </Route>
          
           <Route exact path="/viewStory">
