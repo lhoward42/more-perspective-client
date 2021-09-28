@@ -46,37 +46,33 @@ if (this.props.password === this.state.confirmPassword && this.state.confirmPass
 }
 
 
-    userRegister = () => {
+    userRegister = async () => {
         console.log('userRegister function called');
-    
-        let userEmail = this.props.email
-        let userName = this.props.username
-        let userPass = this.props.password
-         
 
         let newUserData = {
-            userName: userName,
-            email: userEmail, 
-            password: userPass,
+            userName: this.props.username,
+            email: this.props.email, 
+            password: this.props.password,
 
                 }
                 console.log(`newUserData --> ${newUserData.userName} ${newUserData.email} ${newUserData.password}`)
-                async function postRegister(){
-                await fetch(`${APIURL}/user/register`, {
+
+                try {
+                let response = await fetch(`${APIURL}/user/register`, {
                         method: 'POST',
                         headers: new Headers ({
                             'Content-Type' : 'application/json'
                         }),
                         body: JSON.stringify(newUserData)
                     })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log(data);
-                    })
-                    .catch(err => {
+                    let data = await response.json()
+                    console.log(data);
+                    // return data
+                    }
+                     catch(err) {
                         console.error(err)
-                    })}
-                    postRegister()
+                    }
+                    
         }
 
         confirmPassword = (e:React.ChangeEvent<HTMLInputElement> ) => {

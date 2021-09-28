@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { BrowserRouter, Redirect } from "react-router-dom";
+import APIURL from "../../Utils/Environment";
 import ModalLink from "./Modal";
 import {
   Modal,
@@ -20,38 +21,51 @@ type PassedProps = {
 type SearchState = {
   dataResponse: (string | number)[];
   articles: {
-    publishedAt: string;
-    source: { name: string; id: string };
     title: string;
+    author: string;
+    description: string;
     content: string;
-  }[];
-  art: {
+    source: { name: string };
     publishedAt: string;
-    source: { name: string; id: string };
-    title: string;
-    content: string;
   }[];
- 
+  checkedArticles: {
+    title: string;
+    author: string;
+    description: string;
+    content: string;
+    source: { name: string };
+    publishedAt: string;
+  }[];
+  filteredArticles: {
+    title: string;
+    author: string;
+    description: string;
+    content: string;
+    source: { name: string };
+    publishedAt: string;
+  }[];
   searchTerm: {
-    publishedAt: string;
-    source: { name: string; id: string };
     title: string;
+    author: string;
+    description: string;
     content: string;
+    source: { name: string };
+    publishedAt: string;
   }[];
   displaySearchState: {
-    publishedAt: string;
-    source: { name: string; id: string };
     title: string;
+    author: string;
+    description: string;
     content: string;
+    source: { name: string };
+    publishedAt: string;
   }[];
   shouldRedirect: boolean;
-  modal: boolean; 
-  entryName: string
-  titles: Array<string>;
-  title: string;
-  author: string;
-  
-  
+  modal: boolean;
+  entryName: string;
+  description: string;
+  check: string;
+  checked: boolean;
 };
 
 class SearchNews extends Component<PassedProps, SearchState> {
@@ -60,19 +74,17 @@ class SearchNews extends Component<PassedProps, SearchState> {
     this.state = {
       dataResponse: [],
       articles: [],
-      art: [],
-      
+      checkedArticles: [],
+      filteredArticles: [],
       searchTerm: [],
       displaySearchState: [],
       shouldRedirect: false,
       modal: false,
-      titles: [],
-      title: "",
-      author: "",
-      entryName: "", 
-      
+      entryName: "",
+      description: "",
+      check: "",
+      checked: false,
     };
-    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   async fetchNews() {
@@ -113,20 +125,38 @@ class SearchNews extends Component<PassedProps, SearchState> {
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
-  setEntryName = (e:React.ChangeEvent<HTMLInputElement> ) => {
+  setEntryName = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      entryName: e.target.value
-    })
-  }
-handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
-  const target = event.target;
-  const value = target.type === 'checkbox' ? target.checked : target.value;
-  const name = target.name;
-
-  this.setState({
-
-  });
-}
+      entryName: e.target.value,
+    });
+  };
+  saveArticle = async (
+    article: {
+      title: string;
+      author: string;
+      description: string;
+      content: string;
+      source: { name: string };
+      publishedAt: string;
+    },
+    checked: boolean
+  ) => {
+    await this.setState({
+      checked: !this.state.checked,
+    });
+    if (checked === true) {
+      this.setState({
+        checkedArticles: [...this.state.checkedArticles, article],
+      });
+    } else if (checked === false) {
+      let array = [...this.state.checkedArticles];
+      let index = array.indexOf(article);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({ checkedArticles: array });
+      }
+    }
+  };
 
   displayFunction = () => {
     if (this.state.displaySearchState.length > 0) {
@@ -137,61 +167,59 @@ handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
             {article.publishedAt}
             {article.source.name} <br /> {article.title} <br />{" "}
             {article.content}
-            {/* <ModalLink articles={this.state.articles}/> */}
+            <Input
+              type='checkbox'
+              onChange={(e) => {
+                this.saveArticle(article, e.target.checked);
+              }}
+            />
           </>
         </div>
       ));
     } else if (this.state.articles && this.props.colorMode === false) {
       {
-        return this.state.articles.map((article, index) => (
-          <div>
-            {article.source.name === "CNN" ||
-            article.source.name === "VOX" ||
-            article.source.name === "The Washington Post" ? (
-              <>
-                {" "}
-                {article.publishedAt}
-                {article.source.name} <br /> {article.title} <br />{" "}
-                {article.content}{" "}
-              </>
-            ) : undefined}
-
-          </div>
-        ));
+        this.state.articles.map((article) => {
+          return (
+            <>
+              {article.source.name === "CNN" ||
+              article.source.name === "VOX" ||
+              article.source.name === "The Washington Post" ? (
+                <>
+                  {" "}
+                  {article.publishedAt}
+                  {article.source.name} <br /> {article.title} <br />{" "}
+                  {article.content}
+                  <Input
+                    type='checkbox'
+                    onChange={(e) => {
+                      this.saveArticle(article, e.target.checked);
+                    }}
+                  />
+                </>
+              ) : undefined}
+            </>
+          );
+        });
       }
     } else if (this.state.articles && this.props.colorMode === true) {
       return this.state.articles.map((article) => (
-        <div >
+        <div>
           {article.source.name === "New York Post" ||
           article.source.name === "Fox News" ||
           article.source.name === "The Epoch Times" ? (
             <>
               {" "}
               {article.publishedAt}
-              <br />
               {article.source.name} <br /> {article.title} <br />{" "}
-              {article.content}{" "}
-              {/* <Button onClick={this.toggle}>Open Modal</Button>
-              <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                <ModalHeader color='danger'>Title</ModalHeader>
-                <ModalBody value={this.state.art}>
-                  <Input type="text" onChange={(e) => this.setEntryName(e)} />
-                <Input type="select" options={article} />
-                  {article.title}
-                  {article.source.name}
-                  {article.content}
-                  </ModalBody>
-                <ModalFooter>
-                <select
-            name="numberOfGuests"
-            type="checkbox"
-            value={}
-            onChange={this.handleInputChange} ></select>
-                  <Button color='success' onSubmit={this.toggle}>
-                    OK{" "}
-                  </Button>
-                </ModalFooter>
-              </Modal> */}
+              {article.content}
+              <Input
+                value='new'
+                type='checkbox'
+                onChange={(e) => {
+                  this.saveArticle(article, e.target.checked);
+                }}
+              />
+              Add Article to Entry
             </>
           ) : undefined}
         </div>
@@ -209,8 +237,13 @@ handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
   componentDidMount() {
     this.fetchNews();
   }
+  componentDidUpdate() {}
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    this.setState({
+      checkedArticles: [],
+    });
+  }
 
   render() {
     return (
@@ -225,6 +258,10 @@ handleInputChange = (event:React.ChangeEvent<HTMLInputElement>) => {
           />
         ) : (
           <>
+            <ModalLink
+              articles={this.state.checkedArticles}
+              token={this.props.token}
+            />
             <fieldset>
               <input onChange={(e) => this.setSearch(e.target.value)} />
               <input
