@@ -91,7 +91,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
     const API_KEY = `42f599c7ca48424caa76369e2aa73550`;
     try {
       let res = await fetch(
-        `https://newsapi.org/v2/everything?domains=cnn.com,foxnews.com,washingtonpost.com,nypost.com,theepochtimes.com,vox.com&apiKey=${API_KEY}`,
+        `https://newsapi.org/v2/everything?domains=cnn.com,foxnews.com,vox.com,nypost.com,theepochtimes.com,thewashingtonpost.com&apiKey=${API_KEY}`,
         {
           method: "GET",
         }
@@ -177,30 +177,28 @@ class SearchNews extends Component<PassedProps, SearchState> {
         </div>
       ));
     } else if (this.state.articles && this.props.colorMode === false) {
-      {
-        this.state.articles.map((article) => {
-          return (
+      return this.state.articles.map((article) => (
+        <div>
+          {article.source.name === "CNN" ||
+          article.source.name === "The Washington Post" ||
+          article.source.name === "VOX" ? (
             <>
-              {article.source.name === "CNN" ||
-              article.source.name === "VOX" ||
-              article.source.name === "The Washington Post" ? (
-                <>
-                  {" "}
-                  {article.publishedAt}
-                  {article.source.name} <br /> {article.title} <br />{" "}
-                  {article.content}
-                  <Input
-                    type='checkbox'
-                    onChange={(e) => {
-                      this.saveArticle(article, e.target.checked);
-                    }}
-                  />
-                </>
-              ) : undefined}
+              {" "}
+              {article.publishedAt}
+              {article.source.name} <br /> {article.title} <br />{" "}
+              {article.content}
+              <Input
+                value='new'
+                type='checkbox'
+                onChange={(e) => {
+                  this.saveArticle(article, e.target.checked);
+                }}
+              />
+              Add Article to Entry
             </>
-          );
-        });
-      }
+          ) : undefined}
+        </div>
+      ));
     } else if (this.state.articles && this.props.colorMode === true) {
       return this.state.articles.map((article) => (
         <div>
