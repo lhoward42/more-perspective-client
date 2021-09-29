@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Redirect } from "react-router-dom";
 import APIURL from "../../Utils/Environment";
 import ModalLink from "./Modal";
+import UpdateModal from "./UpdateModal";
 import {
   Modal,
   ModalHeader,
@@ -257,6 +258,10 @@ class SearchNews extends Component<PassedProps, SearchState> {
         ) : (
           <>
             <ModalLink
+              articles={this.state.checkedArticles}
+              token={this.props.token}
+            />
+            <UpdateModal
               articles={this.state.checkedArticles}
               token={this.props.token}
             />
