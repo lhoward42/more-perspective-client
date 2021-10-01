@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components/";
 import { GlobalStyles } from "./Components/GlobalStyles/Global";
 import { theme } from "./Components/GlobalStyles/Theme";
 import Burger from "./Components/Burger";
