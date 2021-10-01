@@ -67,7 +67,11 @@ class App extends Component<AppProps, AppState> {
 
         <div className='theme-switch-wrapper'>
           <label className='theme-switch'>
-            <input type='checkbox' id='checkbox' onClick={() => this.colorModeToggle()} />
+            <input
+              type='checkbox'
+              id='checkbox'
+              onClick={() => this.colorModeToggle()}
+            />
             <div className='slider round'></div>
           </label>
           <em>Enable Dark Mode!</em>

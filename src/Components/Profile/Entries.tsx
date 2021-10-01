@@ -9,7 +9,7 @@ import {
   Button,
   Input,
 } from "reactstrap";
-import { Redirect } from "react-router-dom";
+
 import APIURL from "../../Utils/Environment";
 import EditEntry from "./EditEntry";
 
@@ -96,50 +96,35 @@ class Profile extends Component<PassedProps, ProfileStates> {
     const { existingEntries } = this.state;
     return (
       <>
-        {this.state.shouldRedirect === true ? (
-          <Redirect
-            to={{
-              pathname: "/profile/entry",
-              state: { entry: this.state.entry },
-            }}
-            push
-          />
-        ) : (
-          <>
-            <table className='table table-striped'>
-              <thead>
-                <tr>
-                  <th>Entry Name</th>
-                  <th>Description</th>
-                  <th>
-                    Select
-                    <br />
-                    Entry
-                  </th>
-                  <th></th>
+        <>
+          <table className='table table-striped'>
+            <thead>
+              <tr>
+                <th>Entry Name</th>
+                <th>Description</th>
+                <th>
+                  Select
+                  <br />
+                  Entry
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {existingEntries.map((entry) => (
+                <tr key={entry.id} data-item={entry}>
+                  <td>{entry.entryName}</td>
+                  <td>{entry.description}</td>
+                  <td>
+                    <Button onClick={() => this.selectEntry(entry)}></Button>
+                  </td>
+                  <td></td>
                 </tr>
-              </thead>
-              <tbody>
-                {existingEntries.map((entry) => (
-                  <tr key={entry.id} data-item={entry}>
-                    <td>{entry.entryName}</td>
-                    <td>{entry.description}</td>
-                    <td>
-                      <Button onClick={() => this.selectEntry(entry)}></Button>
-                    </td>
-                    <td>
-                     
-                    </td>
-                  </tr>
-                ))} 
-                <EditEntry
-                        token={this.props.token}
-                        entry={this.state.entry}
-                      />
-              </tbody>
-            </table>
-          </>
-        )}
+              ))}
+              <EditEntry token={this.props.token} entry={this.state.entry} />
+            </tbody>
+          </table>
+        </>
       </>
     );
   }
