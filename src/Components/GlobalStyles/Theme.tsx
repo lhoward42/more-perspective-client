@@ -1,3 +1,7 @@
+import * as styledComponents from "styled-components/native"
+
+import DefaultTheme from './styled'
+
 const darkMode = {
     primaryDark: '#0D0C1D',
     primaryLight: '#EFFFFA',
