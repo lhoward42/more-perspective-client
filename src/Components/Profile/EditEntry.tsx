@@ -26,7 +26,8 @@ type EditEntryState = {
   modal: boolean;
   entryName: string;
   description: string;
-  entryNameToSubmit: string
+  entryNameToSubmit: string;
+  descriptionToSubmit: string;
 };
 
 class EditEntry extends Component<PassedProps, EditEntryState> {
@@ -36,22 +37,23 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
       modal: false,
       entryName: "",
       description: "",
-      entryNameToSubmit: ""
+      entryNameToSubmit: "",
+      descriptionToSubmit: "",
     };
   }
   setInitialState = () => {
     this.setState({
-        entryName: this.props.entry.entryName,
-        description: this.props.entry.description,
-      });
-  }
+      entryName: this.props.entry.entryName,
+      description: this.props.entry.description,
+    });
+  };
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
     });
   };
   componentDidMount() {
-    this.setInitialState()
+    this.setInitialState();
   }
   cancelUpdate = () => {
     this.setState({
@@ -60,19 +62,18 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
       modal: !this.state.modal,
     });
   };
-  
-  
-editEntry = () => {
-    if(this.state.entryName.length > 0){
-        this.setState({
-            entryNameToSubmit: this.state.entryName
-        })
+
+  editEntry = () => {
+    if (this.state.entryName.length > 0) {
+      this.setState({
+        entryNameToSubmit: this.state.entryName,
+      });
     } else {
-        this.setState({
-            entryNameToSubmit: this.props.entry.entryName
-        })
+      this.setState({
+        entryNameToSubmit: this.props.entry.entryName,
+      });
     }
-}
+  };
   setName = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value !== "") {
       this.setState({
