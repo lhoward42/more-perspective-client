@@ -110,7 +110,7 @@ class Profile extends Component<PassedProps, ProfileStates> {
               <thead>
                 <tr>
                   <th>Entry Name</th>
-                  <th>Description</th>
+                  <th>Descriptionfe</th>
                   <th>
                     Select
                     <br />
