@@ -1,16 +1,17 @@
-import styled from 'styled-components';
-import { theme } from '../GlobalStyles/Theme';
+import styled from "styled-components";
+import { theme } from "../GlobalStyles/Theme";
 
 type PassedProps = {
-  open: boolean
-  colorMode: any
-}
+  open: boolean;
+  colorMode: boolean;
+};
 
 export const StyledMenu = styled.nav<PassedProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: ${({ colorMode }) => colorMode ? theme.light.menuBackground : theme.dark.menuBackground};
+  background: ${(props) =>
+    props.colorMode ? theme.light.menuBackground : theme.dark.menuBackground};
   height: 100vh;
   text-align: left;
   padding: 2rem;
@@ -18,9 +19,10 @@ export const StyledMenu = styled.nav<PassedProps>`
   top: 0;
   left: 0;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
+  transform: ${(props) => (props.open ? "translateX(0)" : "translateX(-100%)")};
 
-  @media (max-width: ${({ colorMode }) => colorMode ? theme.light.mobile : theme.dark.mobile}) {
+  @media (max-width: ${(props) =>
+      props.open ? theme.light.mobile : theme.dark.mobile}) {
     width: 100%;
   }
 
@@ -30,17 +32,20 @@ export const StyledMenu = styled.nav<PassedProps>`
     padding: 2rem 0;
     font-weight: bold;
     letter-spacing: 0.5rem;
-    color: ${({ colorMode }) => colorMode ? theme.light.primaryLight : theme.dark.primaryLight };
+    color: ${(props) =>
+      props.open ? theme.light.primaryLight : theme.dark.primaryLight};
     text-decoration: none;
     transition: color 0.3s linear;
-    
-    @media (max-width: ${({ colorMode }) => colorMode ? theme.light.mobile : theme.dark.mobile}) {
+
+    @media (max-width: ${(props) =>
+        props.colorMode ? theme.light.mobile : theme.dark.mobile}) {
       font-size: 1.5rem;
       text-align: center;
     }
 
     &:hover {
-      color: ${({ colorMode }) => colorMode ? theme.light.primaryHover : theme.dark.primaryHover};
+      color: ${(props) =>
+        props.open ? theme.light.primaryHover : theme.dark.primaryHover};
     }
   }
 `;
