@@ -110,7 +110,7 @@ class Profile extends Component<PassedProps, ProfileStates> {
               <thead>
                 <tr>
                   <th>Entry Name</th>
-                  <th>Descriptionfe</th>
+                  <th>Description</th>
                   <th>
                     Select
                     <br />
@@ -128,13 +128,14 @@ class Profile extends Component<PassedProps, ProfileStates> {
                       <Button onClick={() => this.selectEntry(entry)}></Button>
                     </td>
                     <td>
-                      <EditEntry
+                     
+                    </td>
+                  </tr>
+                ))} 
+                <EditEntry
                         token={this.props.token}
                         entry={this.state.entry}
                       />
-                    </td>
-                  </tr>
-                ))}
               </tbody>
             </table>
           </>
