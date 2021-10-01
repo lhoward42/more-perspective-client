@@ -4,7 +4,8 @@ import { bool } from "prop-types";
 import { StyledMenu } from "./Menu.styled";
 import Portal from "../Auth/Portal";
 import SearchNews from "../Search/index";
-import Profile from "../Profile/Entry";
+import Profile from "../Profile/Entries";
+
 
 type SideNavProps = {
   token: string | null;
@@ -66,7 +67,7 @@ class SideNav extends Component<SideNavProps, SideNavState> {
               {/* <Story /> */}
             </Route>
             <Route exact path='/profile'>
-              <Profile />
+              <Profile token={token} />
             </Route>
             <Route exact path='/viewEntry'>
               {/* <Entry /> */}

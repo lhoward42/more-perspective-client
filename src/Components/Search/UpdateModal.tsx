@@ -129,18 +129,20 @@ class UpdateModal extends Component<PassedProps, ModalState> {
     this.setState({ modal: !this.state.modal });
   };
 
-  getEntries = async () => {
+  getEntries = async () => {   
+
+    let token = this.props.token ? this.props.token : localStorage.getItem("token")
     try {
       let res = await fetch(`${APIURL}/entry/mine`, {
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.props.token}`,
+          Authorization: `Bearer ${token}`,
         }),
       });
       let data = await res.json();
       console.log(data);
-      this.setState({ existingEntries: data });
+      this.setState({ existingEntries: data, modal: !this.state.modal});
     } catch (err) {
       console.error(err);
     }
@@ -150,6 +152,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
       dropDownOpen: !this.state.dropDownOpen,
     });
   };
+  
   getEntryToAddArticles = async (entry: {
     UserId: number;
     createdAt: string;
@@ -162,12 +165,14 @@ class UpdateModal extends Component<PassedProps, ModalState> {
       entrySelection: entry.id,
       selectedEntry: entry,
     });
+    let token = this.props.token ? this.props.token : localStorage.getItem("token")
+
     try {
       let res = await fetch(`${APIURL}/entry/${entry.id}`, {
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.props.token}`,
+          Authorization: `Bearer ${token}`,
         }),
       });
       let data = res.json();
@@ -225,7 +230,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
 // }
   };
 
-  updateArticles = () => {
+  updateArticlestoEntry = () => {
     this.props.articles.map(async (article) => {
       // this.setState({
       //   article: article,
@@ -238,12 +243,15 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         sourceName: article.source.name,
         publishedAt: article.publishedAt,
       };
+
+      let token = this.props.token ? this.props.token : localStorage.getItem("token")
+
       try {
-        let res = await fetch(`${APIURL}/article/create/${this.state.id}`, {
+        let res = await fetch(`${APIURL}/article/create/${this.state.entrySelection}`, {
           method: "POST",
           headers: new Headers({
             "Content-Type": "application/json",
-            Authorization: `Bearer ${this.props.token}`,
+            Authorization: `Bearer ${token}`,
           }),
           body: JSON.stringify(articleData),
         });
@@ -276,7 +284,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
 //   };
 
   componentDidMount() {
-    this.getEntries();
+  
   }
 
   render() {
@@ -289,7 +297,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
     } = this.state;
     return (
       <div>
-        <Button onClick={this.toggle}>Update Entry</Button>
+        <Button onClick={this.getEntries}>Update Entry</Button>
         <Modal isOpen={modal} toggle={this.toggle}>
           <ModalHeader color='danger'>Title</ModalHeader>
           <ModalBody>
@@ -344,7 +352,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
             </FormGroup>
           </ModalBody>
           <ModalFooter>
-            <Button color='success' >
+            <Button color='success' onClick={this.updateArticlestoEntry}>
               OK{" "}
             </Button>
           </ModalFooter>

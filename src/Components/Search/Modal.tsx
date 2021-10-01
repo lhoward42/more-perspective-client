@@ -80,12 +80,12 @@ class ModalLink extends Component<PassedProps, ModalState> {
   };
 
   createNewEntry = async () => {
-    //do fetch
-
+    
+    
     this.setState({
       modal2: !this.state.modal2,
     });
-
+    let token = this.props.token ? this.props.token : localStorage.getItem("token")
     let entryData = {
       entryName: this.state.entryName,
       description: this.state.description,
@@ -96,7 +96,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
         method: "POST",
         headers: new Headers({
           "Content-Type": "application/json",
-          Authorization: `Bearer ${this.props.token}`,
+          Authorization: `Bearer ${token}`,
         }),
         body: JSON.stringify(entryData),
       });
@@ -114,10 +114,10 @@ class ModalLink extends Component<PassedProps, ModalState> {
   };
 
   confirmEntry = () => {
+    
     this.props.articles.map(async(article) =>  {
-      // this.setState({
-      //   article: article,
-      // })
+      
+      let token = this.props.token ? this.props.token : localStorage.getItem("token")
       let articleData = {
         title: article.title,
         author: article.author,
@@ -133,7 +133,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
               method: "POST",
               headers: new Headers({
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${this.props.token}`,
+                Authorization: `Bearer ${token}`,
               }),
               body: JSON.stringify(articleData),
             }

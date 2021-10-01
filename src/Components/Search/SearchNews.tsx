@@ -67,6 +67,7 @@ type SearchState = {
   description: string;
   check: string;
   checked: boolean;
+  token: string
 };
 
 class SearchNews extends Component<PassedProps, SearchState> {
@@ -85,6 +86,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
       description: "",
       check: "",
       checked: false,
+      token: ""
     };
   }
 
