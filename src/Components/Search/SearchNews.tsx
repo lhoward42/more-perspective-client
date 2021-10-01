@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import APIURL from "../../Utils/Environment";
 import ModalLink from "./Modal";
 import UpdateModal from "./UpdateModal";
@@ -248,7 +249,15 @@ class SearchNews extends Component<PassedProps, SearchState> {
   render() {
     return (
       <div className='App'>
-        
+        {this.state.shouldRedirect === true && this.props.token !== "" ? (
+          <Redirect
+            to={{
+              pathname: "/profile",
+              state: { articles: this.state.articles },
+            }}
+            push
+          />
+        ) : (
           <>
             <ModalLink
               articles={this.state.checkedArticles}
@@ -269,6 +278,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
             <button onClick={() => this.onSubmit()}>Redirect</button>
             {this.displayFunction()}{" "}
           </>
+        )}
       </div>
     );
   }
