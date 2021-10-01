@@ -105,7 +105,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
         articles: data.articles,
       });
     } catch (err) {
-      console.log(err);
+      console.log(err, "error happened here");
     }
   }
 

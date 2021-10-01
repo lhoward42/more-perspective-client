@@ -178,7 +178,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
       let data = res.json();
       console.log(data);
     } catch (err) {
-      console.error(err);
+      console.error(err,"error happen here");
     }
   };
   updateEntry = async () => {
