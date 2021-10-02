@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 import {
   Modal,
   ModalHeader,
@@ -8,6 +9,7 @@ import {
   Input,
   FormGroup,
 } from "reactstrap";
+
 import APIURL from "../../Utils/Environment";
 
 type PassedProps = {
@@ -24,19 +26,23 @@ type PassedProps = {
       };
     };
   };
+  history: { goBack(): void }
 };
 
 type EditEntryState = {
   modal: boolean;
   entryName: string;
+  entryId: number;
   description: string;
   showInput: boolean;
   articles: {
-    title: number;
+    EntryId: number;
+    id: number;
+    title: string;
     author: string;
     description: string;
     content: string;
-    sourceName: number;
+    sourceName: string;
     publishedAt: string;
     image: string;
   }[];
@@ -49,6 +55,7 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
       modal: false,
       entryName: this.props.location.state.entry.entryName,
       description: this.props.location.state.entry.description,
+      entryId: this.props.location.state.entry.id,
       showInput: false,
       articles: [],
     };
@@ -58,16 +65,13 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
       ? this.props.token
       : localStorage.getItem("token");
     try {
-      let res = await fetch(
-        `${APIURL}/article/${this.props.location.state.entry.id}`,
-        {
-          method: "GET",
-          headers: new Headers({
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          }),
-        }
-      );
+      let res = await fetch(`${APIURL}/article/${this.state.entryId}`, {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }),
+      });
       let data = await res.json();
       console.log(data);
       await this.setState({
@@ -117,6 +121,35 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
       console.error(err);
     }
   };
+  deleteArticle = async (article: {
+    EntryId: number;
+    id: number;
+    title: string;
+    author: string;
+    description: string;
+    content: string;
+    sourceName: string;
+    publishedAt: string;
+    image: string;
+  }) => {
+    let token = this.props.token
+      ? this.props.token
+      : localStorage.getItem("token");
+    try {
+      let res = await fetch(`${APIURL}/article/delete/${article.EntryId}/${article.id}`, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }),
+      });
+      let data = res.json()
+      console.log(data, "Successfully deleted");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   cancelEntryUpdate = () => {
     this.setState({
       showInput: false,
@@ -125,12 +158,7 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
     });
   };
 
-  cancelUpdate = () => {
-    this.setState({
-      entryName: "",
-      description: "",
-    });
-  };
+ 
 
   setName = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 0) {
@@ -204,8 +232,10 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
           <>
             {article.image}
             <br />{" "}
+            <Button onClick={() => this.deleteArticle(article)}>Delete</Button>
           </>
         ))}
+        <Button onClick={this.props.history.goBack}>Back to Profile</Button>
       </div>
     );
   }

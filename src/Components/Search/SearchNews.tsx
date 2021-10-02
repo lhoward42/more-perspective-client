@@ -66,7 +66,6 @@ type SearchState = {
     publishedAt: string;
     urlToImage: string;
   }[];
-  shouldRedirect: boolean;
   modal: boolean;
   entryName: string;
   description: string;
@@ -85,7 +84,6 @@ class SearchNews extends Component<PassedProps, SearchState> {
       filteredArticles: [],
       searchTerm: [],
       displaySearchState: [],
-      shouldRedirect: false,
       modal: false,
       entryName: "",
       description: "",
@@ -120,13 +118,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
       article.content.includes(value.toLowerCase())
     );
     this.setState({
-      searchTerm: results,
-    });
-  };
-
-  sendSearchResults = () => {
-    this.setState({
-      displaySearchState: this.state.searchTerm,
+      displaySearchState: results,
     });
   };
 
@@ -236,9 +228,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
     }
   };
 
-  onSubmit = () => {
-    this.setState({ shouldRedirect: true });
-  };
+ 
 
   //Lifecycle methods
   componentDidMount() {
@@ -255,15 +245,6 @@ class SearchNews extends Component<PassedProps, SearchState> {
   render() {
     return (
       <div className='App'>
-        {this.state.shouldRedirect === true && this.props.token !== "" ? (
-          <Redirect
-            to={{
-              pathname: "/profile",
-              state: { articles: this.state.articles },
-            }}
-            push
-          />
-        ) : (
           <>
             <ModalLink
               articles={this.state.checkedArticles}
@@ -275,16 +256,10 @@ class SearchNews extends Component<PassedProps, SearchState> {
             />
             <fieldset>
               <input onChange={(e) => this.setSearch(e.target.value)} />
-              <input
-                type='submit'
-                className={"start"}
-                onClick={() => this.sendSearchResults()}
-              />
             </fieldset>
-            <button onClick={() => this.onSubmit()}>Redirect</button>
+           
             {this.displayFunction()}{" "}
           </>
-        )}
       </div>
     );
   }
