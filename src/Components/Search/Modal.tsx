@@ -17,6 +17,7 @@ type PassedProps = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string
   }[];
   token: string | null;
 };
@@ -33,6 +34,7 @@ type ModalState = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string
   };
   entryId: number;
   data: {
@@ -42,6 +44,7 @@ type ModalState = {
     entryName: number;
     id: number;
     updatedAt: string;
+    urlToImage: string
   };
   id: number
 };
@@ -61,6 +64,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
         content: "",
         source: { name: "" },
         publishedAt: "",
+        urlToImage: ""
       },
       entryId: 0,
       data: {
@@ -70,6 +74,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
         entryName: 0,
         id: 0,
         updatedAt: "",
+        urlToImage: "",
       },
       id:0,
     };
@@ -125,6 +130,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
         content: article.content,
         sourceName: article.source.name,
         publishedAt: article.publishedAt,
+        image: article.urlToImage
       }
         try {
           let res = await fetch(

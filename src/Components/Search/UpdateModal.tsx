@@ -23,14 +23,13 @@ type PassedProps = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string
   }[];
   token: string | null;
 };
 
 type ModalState = {
   modal: boolean;
-
-
   article: {
     title: string;
     author: string;
@@ -38,6 +37,7 @@ type ModalState = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string
   };
   existingEntries: {
     UserId: number;
@@ -46,6 +46,7 @@ type ModalState = {
     entryName: string;
     id: number;
     updatedAt: string;
+ 
   }[];
   entryId: number;
   data: {
@@ -72,6 +73,7 @@ type ModalState = {
     entryName: string;
     id: number;
     updatedAt: string;
+
   };
   
   dropDownOpen: boolean;
@@ -92,6 +94,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         content: "",
         source: { name: "" },
         publishedAt: "",
+        urlToImage: ""
       },
       entryId: 0,
       data: {
@@ -101,6 +104,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         entryName: 0,
         id: 0,
         updatedAt: "",
+      
       },
       id: 0,
       entry: {
@@ -110,6 +114,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         entryName: "",
         id: 0,
         updatedAt: "",
+      
       },
       selectedEntry: {
         UserId: 0,
@@ -118,6 +123,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         entryName: "",
         id: 0,
         updatedAt: "",
+     
       },
       
       dropDownOpen: false,
@@ -143,6 +149,8 @@ class UpdateModal extends Component<PassedProps, ModalState> {
       let data = await res.json();
       console.log(data);
       this.setState({ existingEntries: data, modal: !this.state.modal});
+      console.log(this.state.existingEntries);
+      
     } catch (err) {
       console.error(err);
     }
@@ -160,6 +168,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
     entryName: string;
     id: number;
     updatedAt: string;
+    
   }) => {
     this.setState({
       entrySelection: entry.id,
@@ -242,6 +251,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         content: article.content,
         sourceName: article.source.name,
         publishedAt: article.publishedAt,
+        image: article.urlToImage
       };
 
       let token = this.props.token ? this.props.token : localStorage.getItem("token")

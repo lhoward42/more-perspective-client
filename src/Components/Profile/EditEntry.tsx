@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import {
   Modal,
   ModalHeader,
@@ -12,13 +12,17 @@ import APIURL from "../../Utils/Environment";
 
 type PassedProps = {
   token: string | null;
-  entry: {
-    UserId: number;
-    createdAt: string;
-    description: string;
-    entryName: string;
-    id: number;
-    updatedAt: string;
+  location: {
+    state: {
+      entry: {
+        UserId: number;
+        createdAt: string;
+        description: string;
+        entryName: string;
+        id: number;
+        updatedAt: string;
+      };
+    };
   };
 };
 
@@ -26,8 +30,16 @@ type EditEntryState = {
   modal: boolean;
   entryName: string;
   description: string;
-  entryNameToSubmit: string;
-  descriptionToSubmit: string;
+  showInput: boolean;
+  articles: {
+    title: number;
+    author: string;
+    description: string;
+    content: string;
+    sourceName: number;
+    publishedAt: string;
+    image: string;
+  }[];
 };
 
 class EditEntry extends Component<PassedProps, EditEntryState> {
@@ -35,49 +47,111 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
     super(props);
     this.state = {
       modal: false,
-      entryName: "",
-      description: "",
-      entryNameToSubmit: "",
-      descriptionToSubmit: "",
+      entryName: this.props.location.state.entry.entryName,
+      description: this.props.location.state.entry.description,
+      showInput: false,
+      articles: [],
     };
   }
-  setInitialState = () => {
-    this.setState({
-      entryName: this.props.entry.entryName,
-      description: this.props.entry.description,
-    });
-  };
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal,
-    });
+  getArticles = async () => {
+    let token = this.props.token
+      ? this.props.token
+      : localStorage.getItem("token");
+    try {
+      let res = await fetch(
+        `${APIURL}/article/${this.props.location.state.entry.id}`,
+        {
+          method: "GET",
+          headers: new Headers({
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          }),
+        }
+      );
+      let data = await res.json();
+      console.log(data);
+      await this.setState({
+        articles: data,
+      });
+      console.log(this.state.articles);
+    } catch (err) {
+      console.error(err);
+    }
   };
   componentDidMount() {
-    this.setInitialState();
+    this.getArticles();
+    console.log(this.props.location.state.entry.id);
   }
-  cancelUpdate = () => {
+
+  showUpdateInput = () => {
     this.setState({
-      entryName: this.props.entry.entryName,
-      description: this.props.entry.description,
-      modal: !this.state.modal,
+      showInput: !this.state.showInput,
     });
   };
 
-  editEntry = () => {
-    if (this.state.entryName.length > 0) {
+  updateEntry = async () => {
+    let token = this.props.token
+      ? this.props.token
+      : localStorage.getItem("token");
+    try {
+      let res = await fetch(
+        `${APIURL}/entry/update/${this.props.location.state.entry.id}`,
+        {
+          method: "PUT",
+          headers: new Headers({
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          }),
+          body: JSON.stringify({
+            entryName: this.state.entryName,
+            description: this.state.description,
+          }),
+        }
+      );
+      let data = await res.json();
+      console.log(data);
       this.setState({
-        entryNameToSubmit: this.state.entryName,
+        showInput: !this.state.showInput,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  cancelEntryUpdate = () => {
+    this.setState({
+      showInput: false,
+      entryName: "",
+      description: "",
+    });
+  };
+
+  cancelUpdate = () => {
+    this.setState({
+      entryName: "",
+      description: "",
+    });
+  };
+
+  setName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > 0) {
+      this.setState({
+        entryName: e.target.value,
       });
     } else {
       this.setState({
-        entryNameToSubmit: this.props.entry.entryName,
+        entryName: this.props.location.state.entry.entryName,
       });
     }
   };
-  setName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value !== "") {
+
+  setDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > 0) {
       this.setState({
-        entryName: e.target.value,
+        description: e.target.value,
+      });
+    } else {
+      this.setState({
+        description: this.props.location.state.entry.description,
       });
     }
   };
@@ -86,35 +160,52 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
     const { modal } = this.state;
     return (
       <div>
-        <Button color='danger' onClick={this.toggle}>
-          Edit Selected Entry
-        </Button>
-        <Modal isOpen={modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>
-            {this.props.entry.entryName}
-          </ModalHeader>
-          <ModalBody>
-            <Input
-              type='text'
-              placeholder='Edit Entry Name'
-              defaultValue={this.props.entry.entryName}
-              onChange={(e) => this.setName(e)}
-            />
-            <Input
-              type='text'
-              placeholder='Edit Description'
-              defaultValue={this.props.entry.description}
-            />{" "}
-          </ModalBody>
-          <ModalFooter>
-            <Button color='primary' onClick={this.editEntry}>
-              Do Something
-            </Button>{" "}
-            <Button color='secondary' onClick={this.cancelUpdate}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
+        <>
+          {this.state.showInput === false ? (
+            <>
+              {this.props.location.state.entry.entryName}
+              <br />
+            </>
+          ) : (
+            <>
+              {" "}
+              {this.props.location.state.entry.entryName}
+              <Input
+                type='text'
+                defaultValue={this.props.location.state.entry.entryName}
+                placeholder='Edit Entry Name'
+                onChange={(e) => this.setName(e)}
+              />
+            </>
+          )}
+          {this.state.showInput === false ? (
+            <>
+              {this.props.location.state.entry.description} <br />
+              <Button onClick={this.showUpdateInput}>Edit Entry</Button>{" "}
+            </>
+          ) : (
+            <>
+              {this.props.location.state.entry.description}{" "}
+              <Input
+                type='text'
+                placeholder='Edit Description'
+                onChange={(e) => this.setDescription(e)}
+              />{" "}
+              <Button color='primary' onClick={this.updateEntry}>
+                Save Changes
+              </Button>
+              <Button color='primary' onClick={this.cancelEntryUpdate}>
+                Cancel
+              </Button>
+            </>
+          )}
+        </>
+        {this.state.articles.map((article) => (
+          <>
+            {article.image}
+            <br />{" "}
+          </>
+        ))}
       </div>
     );
   }

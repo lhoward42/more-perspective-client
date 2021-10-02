@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Redirect } from "react-router-dom";
 import {
   Card,
   CardImg,
@@ -11,7 +12,7 @@ import {
 } from "reactstrap";
 
 import APIURL from "../../Utils/Environment";
-import EditEntry from "./EditEntry";
+// import EditEntry from "./EditEntry";
 
 type PassedProps = {
   // history: any
@@ -83,10 +84,12 @@ class Profile extends Component<PassedProps, ProfileStates> {
   }) => {
     this.setState({
       entry: entry,
+      shouldRedirect: !this.state.shouldRedirect
     });
   };
+
   onSubmit = () => {
-    this.setState({ shouldRedirect: !this.state.shouldRedirect });
+    this.setState({  });
   };
   componentDidMount() {
     this.getEntries();
@@ -96,6 +99,17 @@ class Profile extends Component<PassedProps, ProfileStates> {
     const { existingEntries } = this.state;
     return (
       <>
+      { this.state.shouldRedirect === true  ? 
+      <>
+      <Redirect
+            to={{
+              pathname: "/profile/editEntry",
+              state: { entry: this.state.entry, token: this.props.token },
+            }}
+            push
+          />
+      </>
+       :
         <>
           <table className='table table-striped'>
             <thead>
@@ -118,13 +132,16 @@ class Profile extends Component<PassedProps, ProfileStates> {
                   <td>
                     <Button onClick={() => this.selectEntry(entry)}></Button>
                   </td>
-                  <td></td>
+                  <td>
+                    <Button onClick={() => this.selectEntry(entry)}></Button>
+                  </td>
                 </tr>
               ))}
-              <EditEntry token={this.props.token} entry={this.state.entry} />
+              {/* <EditEntry token={this.props.token} entry={this.state.entry} /> */}
             </tbody>
           </table>
         </>
+        }
       </>
     );
   }

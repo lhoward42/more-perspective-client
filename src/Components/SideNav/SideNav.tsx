@@ -5,6 +5,7 @@ import { StyledMenu } from "./Menu.styled";
 import Portal from "../Auth/Portal";
 import SearchNews from "../Search/index";
 import Profile from "../Profile/Entries";
+import EditEntry from "../Profile/EditEntry";
 
 
 type SideNavProps = {
@@ -69,6 +70,7 @@ class SideNav extends Component<SideNavProps, SideNavState> {
             <Route exact path='/profile'>
               <Profile token={token} />
             </Route>
+            <Route exact path='/profile/editEntry' component={EditEntry} />            
             <Route exact path='/viewEntry'>
               {/* <Entry /> */}
             </Route>

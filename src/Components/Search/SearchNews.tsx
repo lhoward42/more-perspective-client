@@ -28,6 +28,7 @@ type SearchState = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string;
   }[];
   checkedArticles: {
     title: string;
@@ -36,6 +37,7 @@ type SearchState = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string;
   }[];
   filteredArticles: {
     title: string;
@@ -44,6 +46,7 @@ type SearchState = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string;
   }[];
   searchTerm: {
     title: string;
@@ -52,6 +55,7 @@ type SearchState = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string;
   }[];
   displaySearchState: {
     title: string;
@@ -60,6 +64,7 @@ type SearchState = {
     content: string;
     source: { name: string };
     publishedAt: string;
+    urlToImage: string;
   }[];
   shouldRedirect: boolean;
   modal: boolean;
@@ -67,7 +72,7 @@ type SearchState = {
   description: string;
   check: string;
   checked: boolean;
-  token: string
+  token: string;
 };
 
 class SearchNews extends Component<PassedProps, SearchState> {
@@ -86,7 +91,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
       description: "",
       check: "",
       checked: false,
-      token: ""
+      token: "",
     };
   }
 
@@ -141,6 +146,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
       content: string;
       source: { name: string };
       publishedAt: string;
+      urlToImage: string;
     },
     checked: boolean
   ) => {

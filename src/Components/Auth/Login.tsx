@@ -34,8 +34,7 @@ class Login extends Component<PassedProps, LoginState> {
       email: this.props.email,
       password: this.props.password,
     };
-    let token = this.props.token ? this.props.token : localStorage.getItem("token")
-
+    
       try{
       let response = await fetch(`${APIURL}/user/login`, {
         method: "POST",
