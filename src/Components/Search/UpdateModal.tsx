@@ -12,7 +12,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import { isThisTypeNode } from "typescript";
+import { Redirect } from "react-router-dom";
 
 import APIURL from "../../Utils/Environment";
 type PassedProps = {
@@ -23,7 +23,7 @@ type PassedProps = {
     content: string;
     source: { name: string };
     publishedAt: string;
-    urlToImage: string
+    urlToImage: string;
   }[];
   token: string | null;
 };
@@ -37,7 +37,7 @@ type ModalState = {
     content: string;
     source: { name: string };
     publishedAt: string;
-    urlToImage: string
+    urlToImage: string;
   };
   existingEntries: {
     UserId: number;
@@ -46,7 +46,6 @@ type ModalState = {
     entryName: string;
     id: number;
     updatedAt: string;
- 
   }[];
   entryId: number;
   data: {
@@ -73,11 +72,11 @@ type ModalState = {
     entryName: string;
     id: number;
     updatedAt: string;
-
   };
-  
+
   dropDownOpen: boolean;
   entrySelection: number;
+  redirect: boolean;
 };
 
 class UpdateModal extends Component<PassedProps, ModalState> {
@@ -85,7 +84,6 @@ class UpdateModal extends Component<PassedProps, ModalState> {
     super(props);
     this.state = {
       modal: false,
-  
       existingEntries: [],
       article: {
         title: "",
@@ -94,7 +92,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         content: "",
         source: { name: "" },
         publishedAt: "",
-        urlToImage: ""
+        urlToImage: "",
       },
       entryId: 0,
       data: {
@@ -104,7 +102,6 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         entryName: 0,
         id: 0,
         updatedAt: "",
-      
       },
       id: 0,
       entry: {
@@ -114,7 +111,6 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         entryName: "",
         id: 0,
         updatedAt: "",
-      
       },
       selectedEntry: {
         UserId: 0,
@@ -123,11 +119,11 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         entryName: "",
         id: 0,
         updatedAt: "",
-     
       },
-      
+
       dropDownOpen: false,
       entrySelection: 0,
+      redirect: false,
     };
   }
 
@@ -135,9 +131,10 @@ class UpdateModal extends Component<PassedProps, ModalState> {
     this.setState({ modal: !this.state.modal });
   };
 
-  getEntries = async () => {   
-
-    let token = this.props.token ? this.props.token : localStorage.getItem("token")
+  getEntries = async () => {
+    let token = this.props.token
+      ? this.props.token
+      : localStorage.getItem("token");
     try {
       let res = await fetch(`${APIURL}/entry/mine`, {
         method: "GET",
@@ -148,9 +145,8 @@ class UpdateModal extends Component<PassedProps, ModalState> {
       });
       let data = await res.json();
       console.log(data);
-      this.setState({ existingEntries: data, modal: !this.state.modal});
+      this.setState({ existingEntries: data, modal: !this.state.modal });
       console.log(this.state.existingEntries);
-      
     } catch (err) {
       console.error(err);
     }
@@ -160,7 +156,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
       dropDownOpen: !this.state.dropDownOpen,
     });
   };
-  
+
   getEntryToAddArticles = async (entry: {
     UserId: number;
     createdAt: string;
@@ -168,13 +164,14 @@ class UpdateModal extends Component<PassedProps, ModalState> {
     entryName: string;
     id: number;
     updatedAt: string;
-    
   }) => {
     this.setState({
       entrySelection: entry.id,
       selectedEntry: entry,
     });
-    let token = this.props.token ? this.props.token : localStorage.getItem("token")
+    let token = this.props.token
+      ? this.props.token
+      : localStorage.getItem("token");
 
     try {
       let res = await fetch(`${APIURL}/entry/${entry.id}`, {
@@ -187,63 +184,12 @@ class UpdateModal extends Component<PassedProps, ModalState> {
       let data = res.json();
       console.log(data);
     } catch (err) {
-      console.error(err,"error happen here");
+      console.error(err, "error happen here");
     }
-  };
-  updateEntry = async () => {
-    //do fetch
-
-//Add the setState and entryData to the next function to close the modal and open the second
-
-    // this.setState({
-    //   modal2: !this.state.modal2,
-    // });
-    // if(this.state.entryName !== ""){
-    //     this.setState({
-    //         updateEntryName: this.state.entryName
-    //     })
-    // } else
-
-    // if(this.state.description !== ""){
-        
-    // }
-
-    // let entryData = {
-    //   entryName: this.state.entryName,
-    //   description: this.state.description,
-    // };
-    // id in url will be the state of whatever entry we've selected in the menu from our GET
-//     if(this.state.entryName !== "" || this.state.description !== ""){
-//     try {
-//       let res = await fetch(
-//         `${APIURL}/entry/update/${this.state.entrySelection}`,
-//         {
-//           method: "POST",
-//           headers: new Headers({
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${this.props.token}`,
-//           }),
-//           body: JSON.stringify(entryData),
-//         }
-//       );
-//       let data = await res.json();
-//       this.setState({
-//         data: data,
-//         id: data.data.id,
-//       });
-//       console.log(data.data.id);
-//       console.log(this.state.id);
-//     } catch (err) {
-//       console.error(err);
-//     }
-// }
   };
 
   updateArticlestoEntry = () => {
     this.props.articles.map(async (article) => {
-      // this.setState({
-      //   article: article,
-      // })
       let articleData = {
         title: article.title,
         author: article.author,
@@ -251,20 +197,24 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         content: article.content,
         sourceName: article.source.name,
         publishedAt: article.publishedAt,
-        image: article.urlToImage
+        image: article.urlToImage,
       };
-
-      let token = this.props.token ? this.props.token : localStorage.getItem("token")
+      let token = this.props.token
+        ? this.props.token
+        : localStorage.getItem("token");
 
       try {
-        let res = await fetch(`${APIURL}/article/create/${this.state.entrySelection}`, {
-          method: "POST",
-          headers: new Headers({
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          }),
-          body: JSON.stringify(articleData),
-        });
+        let res = await fetch(
+          `${APIURL}/article/create/${this.state.entrySelection}`,
+          {
+            method: "POST",
+            headers: new Headers({
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            }),
+            body: JSON.stringify(articleData),
+          }
+        );
         let data = await res.json();
 
         console.log(data);
@@ -277,99 +227,74 @@ class UpdateModal extends Component<PassedProps, ModalState> {
 
     this.setState({
       modal: !this.state.modal,
-      
+      redirect: !this.state.redirect,
     });
   };
 
-//   showName = () => {
-//     this.setState({
-//       showUpdateEntryName: !this.state.showUpdateEntryName,
-//     });
-//   };
+  //   showName = () => {
+  //     this.setState({
+  //       showUpdateEntryName: !this.state.showUpdateEntryName,
+  //     });
+  //   };
 
-//   showDescription = () => {
-//     this.setState({
-//       showUpdateDescription: !this.state.showUpdateDescription,
-//     });
-//   };
+  //   showDescription = () => {
+  //     this.setState({
+  //       showUpdateDescription: !this.state.showUpdateDescription,
+  //     });
+  //   };
 
-  componentDidMount() {
-  
-  }
+  componentDidMount() {}
 
   render() {
     const {} = this.props;
-    const {
-      modal,     
-      dropDownOpen,
-      existingEntries,
-      selectedEntry,
-    } = this.state;
+    const { modal, dropDownOpen, existingEntries, selectedEntry } = this.state;
     return (
-      <div>
-        <Button onClick={this.getEntries}>Update Entry</Button>
-        <Modal isOpen={modal} toggle={this.toggle}>
-          <ModalHeader color='danger'>Title</ModalHeader>
-          <ModalBody>
-            <FormGroup>
-              <Dropdown isOpen={dropDownOpen} toggle={this.setDropDownOpen}>
-                <DropdownToggle caret>Choose an Entry</DropdownToggle>
-                <DropdownMenu>
-                  {this.state.existingEntries.map((entry) => (
-                    <DropdownItem
-                      key={entry.id}
-                      value={entry.entryName}
-                      onClick={() => this.getEntryToAddArticles(entry)}
-                    >
-                      {entry.entryName}
-                    </DropdownItem>
-                  ))}
-                </DropdownMenu>
-                {selectedEntry.entryName} <br />
-                {selectedEntry.description}
-                {/* {this.state.entrySelection > 0
-                 ? (
-                  <Button onClick={this.setShowInput}>Edit Entry Details</Button>
-                ) : (
-                  <></>
-                )} */}
-              </Dropdown>
-              
-              {/* {showInput === true ? (
-                <>
-                {selectedEntry.entryName} <br />
-                  {" "}
-                  <Input
-                    type='text'
-                    placeholder="Edit Entry Name"
-                    value={entryName}
-                    onChange={this.updateEntryName}
-                  />
-                  {selectedEntry.description}<br />
-                  <Input
-                    type='text'
-                    placeholder="Edit Description"
-                    value={description}
-                    onChange={this.updateDescription}
-                  />{" "}
-                  <br />
-                  <Button>Update Entry Details</Button>
-                  <Button>Cancel Changes</Button>
-                </>
-              ) : (
-                <> </>
-              )} */}
-            </FormGroup>
-          </ModalBody>
-          <ModalFooter>
-            <Button color='success' onClick={this.updateArticlestoEntry}>
-              OK{" "}
-            </Button>
-          </ModalFooter>
-        </Modal>
-     
-        {/* Second modal triggered by closing of first */}
-      </div>
+      <>
+        {this.state.redirect === true ? (
+          <Redirect
+            to={{
+              pathname: "/profile/editEntry",
+              state: {
+                entry: this.state.selectedEntry,
+                token: this.props.token,
+              },
+            }}
+            push
+          />
+        ) : (
+          <div>
+            <Button onClick={this.getEntries}>Update Entry</Button>
+            <Modal isOpen={modal} toggle={this.toggle}>
+              <ModalHeader color='danger'>Title</ModalHeader>
+              <ModalBody>
+                <FormGroup>
+                  <Dropdown isOpen={dropDownOpen} toggle={this.setDropDownOpen}>
+                    <DropdownToggle caret>Choose an Entry</DropdownToggle>
+                    <DropdownMenu>
+                      {this.state.existingEntries.map((entry) => (
+                        <DropdownItem
+                          key={entry.id}
+                          value={entry.entryName}
+                          onClick={() => this.getEntryToAddArticles(entry)}
+                        >
+                          {entry.entryName}
+                        </DropdownItem>
+                      ))}
+                    </DropdownMenu>
+                    {selectedEntry.entryName} <br />
+                    {selectedEntry.description}
+                  </Dropdown>
+                </FormGroup>
+              </ModalBody>
+              <ModalFooter>
+                <Button color='success' onClick={this.updateArticlestoEntry}>
+                  OK{" "}
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </div>
+        )}
+      </>
     );
   }
 }

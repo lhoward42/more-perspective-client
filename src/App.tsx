@@ -31,6 +31,7 @@ class App extends Component<AppProps, AppState> {
     }
   }
 
+
   updateToken = (newToken: string) => {
     localStorage.setItem("token", newToken);
     this.setState({
@@ -44,6 +45,8 @@ class App extends Component<AppProps, AppState> {
       token: "",
     });
   };
+
+
 
   colorModeToggle = () => {
     this.setState({ colorMode: !this.state.colorMode });

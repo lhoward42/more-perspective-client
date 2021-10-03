@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import APIURL from "../../Utils/Environment";
+import { Redirect } from "react-router-dom";
 
 type PassedProps = {
   email: string;
@@ -16,6 +17,7 @@ type PassedProps = {
 };
 type LoginState = {
   localToken: string;
+  redirect: boolean;
 };
 
 class Login extends Component<PassedProps, LoginState> {
@@ -23,6 +25,7 @@ class Login extends Component<PassedProps, LoginState> {
     super(props);
     this.state = {
       localToken: "",
+      redirect: false,
     };
   }
   confirmAndSend = () => {
@@ -34,8 +37,8 @@ class Login extends Component<PassedProps, LoginState> {
       email: this.props.email,
       password: this.props.password,
     };
-    
-      try{
+
+    try {
       let response = await fetch(`${APIURL}/user/login`, {
         method: "POST",
         headers: new Headers({
@@ -43,31 +46,40 @@ class Login extends Component<PassedProps, LoginState> {
         }),
         body: JSON.stringify(userData),
       });
-      let data = await response.json() 
-       
-          let dataToken = data.sessionToken;
-          this.props.newToken(dataToken);
-          this.setState({
-            localToken: dataToken,
-          });
-          console.log(data);
-        } catch (err) {
-          console.error(err);
-        } ;
-   
-   
+      let data = await response.json();
+
+      let dataToken = data.sessionToken;
+      this.props.newToken(dataToken);
+      this.setState({
+        localToken: dataToken,
+        redirect: !this.state.redirect,
+      });
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   render() {
     const { checkEmail, setPassword, toggle } = this.props;
     return (
       <>
-        <fieldset>
-          <input id='email' type='email' onChange={(e) => checkEmail(e)} />
-          <input id='password' type='text' onChange={(e) => setPassword(e)} />
-          <input type='submit' onClick={() => this.confirmAndSend()} />
-          <input type='submit' onClick={() => toggle()} />
-        </fieldset>
+        {this.state.redirect === true ? (
+          <Redirect to='/profile' />
+        ) : (
+          <>
+            <fieldset>
+              <input id='email' type='email' onChange={(e) => checkEmail(e)} />
+              <input
+                id='password'
+                type='text'
+                onChange={(e) => setPassword(e)}
+              />
+              <input type='submit' onClick={() => this.confirmAndSend()} />
+              <input type='submit' onClick={() => toggle()} />
+            </fieldset>
+          </>
+        )}
       </>
     );
   }

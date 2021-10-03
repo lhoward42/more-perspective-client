@@ -26,7 +26,7 @@ type PassedProps = {
       };
     };
   };
-  history: { goBack(): void }
+  history: { goBack(): void };
 };
 
 type EditEntryState = {
@@ -136,15 +136,24 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
       ? this.props.token
       : localStorage.getItem("token");
     try {
-      let res = await fetch(`${APIURL}/article/delete/${article.EntryId}/${article.id}`, {
-        method: "DELETE",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        }),
-      });
-      let data = res.json()
+      let res = await fetch(
+        `${APIURL}/article/delete/${article.EntryId}/${article.id}`,
+        {
+          method: "DELETE",
+          headers: new Headers({
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          }),
+        }
+      );
+      let data = res.json();
       console.log(data, "Successfully deleted");
+      let array = await [...this.state.articles];
+      let index = array.indexOf(article);
+      if (index !== -1) {
+        array.splice(index, 1);
+        this.setState({ articles: array });
+      }
     } catch (err) {
       console.error(err);
     }
@@ -158,7 +167,10 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
     });
   };
 
- 
+  //  showArticles = () => {
+  // if (this.state.articles)
+
+  //  }
 
   setName = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length > 0) {

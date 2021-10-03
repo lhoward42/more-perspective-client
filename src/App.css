@@ -37,6 +37,11 @@
   }
 }
 
+.existingEntries {
+  border: none !important;
+  background-color: transparent !important;
+}
+
 .theme-switch-wrapper {
   display: flex;
   align-items: center;

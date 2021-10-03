@@ -183,6 +183,11 @@ class ModalLink extends Component<PassedProps, ModalState> {
     });
   };
 
+  confirmAll = async () => {
+    await this.createNewEntry();
+    await this.confirmEntry();
+  };
+
   updateEntryName = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       entryName: e.target.value,
@@ -249,13 +254,13 @@ class ModalLink extends Component<PassedProps, ModalState> {
                 </FormGroup>
               </ModalBody>
               <ModalFooter>
-                <Button color='success' onClick={this.createNewEntry}>
+                <Button color='success' onClick={this.confirmAll}>
                   Save Entry{" "}
                 </Button>
                 <Button onClick={this.cancel}>Cancel</Button>
               </ModalFooter>
-            </Modal>
-            <Modal isOpen={modal2} toggle={this.toggle}>
+            </Modal >
+            {/* <Modal isOpen={modal2} toggle={this.toggle}>
               <ModalHeader color='danger'>Title</ModalHeader>
               <ModalBody>Confirm Selected Articles To Save To Entry</ModalBody>
               <ModalFooter>
@@ -274,7 +279,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
                 </Button>
                 <Button onClick={this.cancel2}>Cancel</Button>
               </ModalFooter>
-            </Modal>
+            </Modal> */}
           </div>
         ) : (
           <Redirect to='/profile' push />
