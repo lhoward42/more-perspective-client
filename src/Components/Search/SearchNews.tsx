@@ -1,23 +1,23 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import APIURL from "../../Utils/Environment";
 import ModalLink from "./Modal";
 import UpdateModal from "./UpdateModal";
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  Form,
-  FormGroup,
   Input,
-  Label,
+  Container,
+  Card,
+  CardImg,
+  Form,
+  ListGroupItem,
+  ListGroup,
 } from "reactstrap";
 
 type PassedProps = {
   colorMode: boolean;
   token: string | null;
+  open: boolean;
+  setOpen(): void;
+  closeNav(): void;
 };
 type SearchState = {
   dataResponse: (string | number)[];
@@ -29,6 +29,7 @@ type SearchState = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
+    url: string;
   }[];
   checkedArticles: {
     title: string;
@@ -38,6 +39,7 @@ type SearchState = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
+    url: string;
   }[];
   filteredArticles: {
     title: string;
@@ -47,6 +49,7 @@ type SearchState = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
+    url: string;
   }[];
   searchTerm: {
     title: string;
@@ -56,6 +59,7 @@ type SearchState = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
+    url: string;
   }[];
   displaySearchState: {
     title: string;
@@ -65,10 +69,9 @@ type SearchState = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
+    url: string;
   }[];
   modal: boolean;
-  entryName: string;
-  description: string;
   check: string;
   checked: boolean;
   token: string;
@@ -85,14 +88,13 @@ class SearchNews extends Component<PassedProps, SearchState> {
       searchTerm: [],
       displaySearchState: [],
       modal: false,
-      entryName: "",
-      description: "",
       check: "",
       checked: false,
       token: "",
     };
   }
 
+  //Fetches the News Data from NewsAPI
   async fetchNews() {
     const API_KEY = `42f599c7ca48424caa76369e2aa73550`;
     try {
@@ -122,14 +124,12 @@ class SearchNews extends Component<PassedProps, SearchState> {
     });
   };
 
+  //Flips the modal for update UpdateModal component
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
-  setEntryName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      entryName: e.target.value,
-    });
-  };
+
+  //Takes an article and adds or removes it from the checkArticles array
   saveArticle = async (
     article: {
       title: string;
@@ -139,6 +139,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
       source: { name: string };
       publishedAt: string;
       urlToImage: string;
+      url: string;
     },
     checked: boolean
   ) => {
@@ -159,108 +160,148 @@ class SearchNews extends Component<PassedProps, SearchState> {
     }
   };
 
+  //display conditional
   displayFunction = () => {
     if (this.state.displaySearchState.length > 0) {
-      return this.state.displaySearchState.map((article) => (
-        <div>
-          <>
-            {" "}
-            {article.publishedAt}
-            {article.source.name} <br /> {article.title} <br />{" "}
-            {article.content}
-            <Input
-              type='checkbox'
-              onChange={(e) => {
-                this.saveArticle(article, e.target.checked);
-              }}
-            />
-          </>
-        </div>
+      return this.state.displaySearchState.map((article, index) => (
+        <Container>
+          <Card
+            key={index}
+            className='d-flex justify-content-between py-5 px-2'
+          >
+            <ListGroupItem
+              className='news ListGroupItem d-flex align-items-center'
+              key={index}
+            >
+              <a href={article.url}>Link to Article</a>
+              {article.publishedAt}
+              {article.source.name} <br /> {article.title} <br />{" "}
+              {article.content}{" "}
+              <CardImg className='newsPics' src={article.urlToImage} />
+              <Input
+                type='checkbox'
+                onChange={(e) => {
+                  this.saveArticle(article, e.target.checked);
+                }}
+              />
+            </ListGroupItem>
+          </Card>
+        </Container>
       ));
     } else if (this.state.articles && this.props.colorMode === false) {
-      return this.state.articles.map((article) => (
-        <div>
-          {article.source.name === "CNN" ||
-          article.source.name === "The Washington Post" ||
-          article.source.name === "VOX" ? (
-            <>
-              {" "}
-              {article.publishedAt}
-              {article.source.name} <br /> {article.title} <br />{" "}
-              {article.content}
-              <Input
-                value='new'
-                type='checkbox'
-                onChange={(e) => {
-                  this.saveArticle(article, e.target.checked);
-                }}
-              />
-              Add Article to Entry
-            </>
-          ) : undefined}
-        </div>
+      return this.state.articles.map((article, index) => (
+        <Container>
+          <Card className='d-flex justify-content-between py-5 px-2'>
+            {article.source.name === "CNN" ||
+            article.source.name === "The Washington Post" ||
+            article.source.name === "VOX" ? (
+              <ListGroupItem
+                className='newsLi d-flex align-items-center'
+                key={index}
+              >
+                <a href={article.url}>Link to Article</a>
+                {article.publishedAt}
+                {article.source.name} <br /> {article.title} <br />{" "}
+                {article.content}
+                <CardImg className='newsPics' src={article.urlToImage} />
+                <Input
+                  value='new'
+                  type='checkbox'
+                  onChange={(e) => {
+                    this.saveArticle(article, e.target.checked);
+                  }}
+                />
+                Add Article to Entry
+              </ListGroupItem>
+            ) : undefined}
+          </Card>
+        </Container>
       ));
     } else if (this.state.articles && this.props.colorMode === true) {
-      return this.state.articles.map((article) => (
-        <div>
-          {article.source.name === "New York Post" ||
-          article.source.name === "Fox News" ||
-          article.source.name === "The Epoch Times" ? (
-            <>
-              {" "}
-              {article.publishedAt}
-              {article.source.name} <br /> {article.title} <br />{" "}
-              {article.content}
-              <Input
-                value='new'
-                type='checkbox'
-                onChange={(e) => {
-                  this.saveArticle(article, e.target.checked);
-                }}
-              />
-              Add Article to Entry
-            </>
-          ) : undefined}
-        </div>
+      return this.state.articles.map((article, index) => (
+        <Container>
+          <Card
+            key={index}
+            className='d-flex justify-content-between py-5 px-2'
+          >
+            {article.source.name === "New York Post" ||
+            article.source.name === "Fox News" ||
+            article.source.name === "The Epoch Times" ? (
+              <ListGroupItem className='newsLi d-flex justify-content-between'>
+                {" "}
+                <a href={article.url} className='d-flex align-self-center ms-2'>
+                  Link to Article
+                </a>
+                <Container className='d-flex flex-column'>
+                  <CardImg className='newsPics' src={article.urlToImage} />
+                  {article.publishedAt}
+                  <br />
+                  {article.source.name} <br /> {article.title} <br />{" "}
+                  {article.content}
+                  <br />
+                </Container>
+                <div className='mx-auto'>
+                  <Input
+                    className='mx-3'
+                    value='new'
+                    type='checkbox'
+                    onChange={(e) => {
+                      this.saveArticle(article, e.target.checked);
+                    }}
+                  />
+                  <br />
+                  <p className='mx-3'>Add Article to Entry</p>
+                </div>
+              </ListGroupItem>
+            ) : undefined}
+          </Card>
+        </Container>
       ));
     } else {
       console.log("error");
     }
   };
 
- 
-
   //Lifecycle methods
   componentDidMount() {
     this.fetchNews();
+    this.props.closeNav();
   }
-  componentDidUpdate() {}
 
   componentWillUnmount() {
     this.setState({
       checkedArticles: [],
+      filteredArticles: [],
+      searchTerm: [],
+      displaySearchState: [],
+      dataResponse: [],
     });
   }
 
   render() {
     return (
-      <div className='App'>
-          <>
-            <ModalLink
-              articles={this.state.checkedArticles}
-              token={this.props.token}
+      <Container className='ms-1'>
+        <>
+          <ModalLink
+            articles={this.state.checkedArticles}
+            token={this.props.token}
+          />
+          <br />
+          <UpdateModal
+            articles={this.state.checkedArticles}
+            token={this.props.token}
+          />
+          <br />
+          <Form className='d-flex justify-content-center mb-3'>
+            <input
+              placeholder='Search News'
+              onChange={(e) => this.setSearch(e.target.value)}
             />
-            <UpdateModal
-              articles={this.state.checkedArticles}
-              token={this.props.token}
-            />
-            <fieldset>
-              <input onChange={(e) => this.setSearch(e.target.value)} />
-            </fieldset>
-           
-            {this.displayFunction()}{" "}
-          </>
-      </div>
+          </Form>
+
+          <ul>{this.displayFunction()} </ul>
+        </>
+      </Container>
     );
   }
 }

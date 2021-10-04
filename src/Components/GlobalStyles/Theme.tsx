@@ -1,5 +1,5 @@
 const darkMode = {
-  primaryDark: "#0D0C1D",
+  primaryDark: "#233E8B",
   primaryLight: "#EFFFFA",
   primaryHover: "#343078",
   menuBackground: "pink",
@@ -7,7 +7,7 @@ const darkMode = {
 };
 
 const lightMode = {
-  primaryDark: "#CF0000",
+  primaryDark: "#B61919",
   primaryLight: "#0D0C1D",
   primaryHover: "white",
   menuBackground: "green",

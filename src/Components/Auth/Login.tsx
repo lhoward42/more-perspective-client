@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import APIURL from "../../Utils/Environment";
 import { Redirect } from "react-router-dom";
+import { Card, Input, Button, Form } from 'reactstrap'
 
 type PassedProps = {
   email: string;
@@ -68,16 +69,17 @@ class Login extends Component<PassedProps, LoginState> {
           <Redirect to='/profile' />
         ) : (
           <>
-            <fieldset>
-              <input id='email' type='email' onChange={(e) => checkEmail(e)} />
-              <input
-                id='password'
-                type='text'
+            <Form>
+              <p></p>
+              <Input type='email' onChange={(e) => checkEmail(e)} />
+              <p></p>
+              <Input
+                type='password'
                 onChange={(e) => setPassword(e)}
               />
-              <input type='submit' onClick={() => this.confirmAndSend()} />
-              <input type='submit' onClick={() => toggle()} />
-            </fieldset>
+              <Button type='submit' onClick={() => this.confirmAndSend()} >Login</Button>
+              <Button type='submit' onClick={() => toggle()} >Click to Register</Button>
+            </Form>
           </>
         )}
       </>

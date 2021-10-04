@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import APIURL from "../../Utils/Environment";
-import { Button } from "reactstrap";
+import { Button, Input, Form } from "reactstrap";
 import "../../App.css";
 
 type PassedProps = {
@@ -86,21 +86,26 @@ class Register extends Component<PassedProps, RegisterState> {
     const { checkEmail, setPassword, setUserName, toggle } = this.props;
     return (
       <>
-        <fieldset>
-          <input id='email' type='email' onChange={(e) => checkEmail(e)} />
-          <input id='username' type='text' onChange={(e) => setUserName(e)} />
-          <input id='password' type='text' onChange={(e) => setPassword(e)} />
-          <input type='text' onChange={(e) => this.confirmPassword(e)} />
-          <input type='submit' onClick={() => this.confirmAndSend()} />
-          <Button
+        <Form>
+        <p></p>
+          <Input id='email' type='email' onChange={(e) => checkEmail(e)} />
+          <p></p>
+          <Input id='username' type='text' onChange={(e) => setUserName(e)} />
+          <p></p>
+          <Input id='password' type='text' onChange={(e) => setPassword(e)} />
+          <p></p>
+          <Input type='text' onChange={(e) => this.confirmPassword(e)} />
+
+          <Button type='submit' onClick={() => this.confirmAndSend()} >Register</Button>
+          <a
             className='existingUser'
             type='submit'
             onClick={() => toggle()}
           >
             {" "}
             Already Have a Login{" "}
-          </Button>
-        </fieldset>
+          </a>
+        </Form>
       </>
     );
   }

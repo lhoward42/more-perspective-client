@@ -5,6 +5,7 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  Container,
   Input,
   FormGroup,
   Dropdown,
@@ -24,6 +25,7 @@ type PassedProps = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
+    url: string
   }[];
   token: string | null;
 };
@@ -38,6 +40,7 @@ type ModalState = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
+    url: string
   };
   existingEntries: {
     UserId: number;
@@ -93,6 +96,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         source: { name: "" },
         publishedAt: "",
         urlToImage: "",
+        url: ""
       },
       entryId: 0,
       data: {
@@ -198,6 +202,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         sourceName: article.source.name,
         publishedAt: article.publishedAt,
         image: article.urlToImage,
+        url: article.url
       };
       let token = this.props.token
         ? this.props.token
@@ -230,20 +235,25 @@ class UpdateModal extends Component<PassedProps, ModalState> {
       redirect: !this.state.redirect,
     });
   };
+  cancel = () => {
+    this.setState({
+      modal: !this.state.modal,
+      selectedEntry: {
+        UserId: 0,
+        createdAt: "",
+        description: "",
+        entryName: "",
+        id: 0,
+        updatedAt: "",
+      },
+    });
+  };
 
-  //   showName = () => {
-  //     this.setState({
-  //       showUpdateEntryName: !this.state.showUpdateEntryName,
-  //     });
-  //   };
-
-  //   showDescription = () => {
-  //     this.setState({
-  //       showUpdateDescription: !this.state.showUpdateDescription,
-  //     });
-  //   };
-
-  componentDidMount() {}
+  componentWillUnmount() {
+    this.setState({
+      existingEntries: [],
+    });
+  }
 
   render() {
     const {} = this.props;
@@ -262,8 +272,8 @@ class UpdateModal extends Component<PassedProps, ModalState> {
             push
           />
         ) : (
-          <div>
-            <Button onClick={this.getEntries}>Update Entry</Button>
+          <Container>
+           <p className="d-flex justify-content-center"><Button onClick={this.getEntries}>Update Existing Entry</Button></p>
             <Modal isOpen={modal} toggle={this.toggle}>
               <ModalHeader color='danger'>Title</ModalHeader>
               <ModalBody>
@@ -271,7 +281,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
                   <Dropdown isOpen={dropDownOpen} toggle={this.setDropDownOpen}>
                     <DropdownToggle caret>Choose an Entry</DropdownToggle>
                     <DropdownMenu>
-                      {this.state.existingEntries.map((entry) => (
+                      {existingEntries.map((entry) => (
                         <DropdownItem
                           key={entry.id}
                           value={entry.entryName}
@@ -287,12 +297,13 @@ class UpdateModal extends Component<PassedProps, ModalState> {
                 </FormGroup>
               </ModalBody>
               <ModalFooter>
+                <Button onClick={this.cancel}>Cancel</Button>
                 <Button color='success' onClick={this.updateArticlestoEntry}>
-                  OK{" "}
+                  Save Articles to Entry{" "}
                 </Button>
               </ModalFooter>
             </Modal>
-          </div>
+          </Container>
         )}
       </>
     );

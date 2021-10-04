@@ -7,7 +7,6 @@ import SearchNews from "../Search/index";
 import Profile from "../Profile/Entries";
 import EditEntry from "../Profile/EditEntry";
 
-
 type SideNavProps = {
   token: string | null;
   logout(): void;
@@ -15,6 +14,7 @@ type SideNavProps = {
   isOpen: boolean;
   setOpen(): void;
   colorMode: boolean;
+  closeNav(): void;
 };
 type SideNavState = {};
 
@@ -58,19 +58,29 @@ class SideNav extends Component<SideNavProps, SideNavState> {
                 token={token}
                 newToken={this.props.newToken}
                 logout={this.props.logout}
+                open={this.props.isOpen}
+                setOpen={this.props.setOpen}
+                closeNav={this.props.closeNav}
               />
             </Route>
             <Route exact path='/news'>
-              <SearchNews colorMode={colorMode} token={token} />
-            </Route>
-
-            <Route exact path='/viewStory'>
-              {/* <Story /> */}
+              <SearchNews
+                colorMode={colorMode}
+                token={token}
+                open={this.props.isOpen}
+                setOpen={this.props.setOpen}
+                closeNav={this.props.closeNav}
+              />
             </Route>
             <Route exact path='/profile'>
-              <Profile token={token} />
+              <Profile
+                token={token}
+                open={this.props.isOpen}
+                setOpen={this.props.setOpen}
+                closeNav={this.props.closeNav}
+              />
             </Route>
-            <Route exact path='/profile/editEntry' component={EditEntry} />            
+            <Route exact path='/profile/editEntry' component={EditEntry} />
             <Route exact path='/viewEntry'>
               {/* <Entry /> */}
             </Route>

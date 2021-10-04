@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
   Input,
-  FormGroup,
+  Card,
+  CardImg,
+  Container
 } from "reactstrap";
 
 import APIURL from "../../Utils/Environment";
@@ -45,6 +43,7 @@ type EditEntryState = {
     sourceName: string;
     publishedAt: string;
     image: string;
+    url: string;
   }[];
 };
 
@@ -84,6 +83,8 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
   };
   componentDidMount() {
     this.getArticles();
+    console.log(this.props.location.state);
+
     console.log(this.props.location.state.entry.id);
   }
 
@@ -131,6 +132,7 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
     sourceName: string;
     publishedAt: string;
     image: string;
+    url: string;
   }) => {
     let token = this.props.token
       ? this.props.token
@@ -199,7 +201,7 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
   render() {
     const { modal } = this.state;
     return (
-      <div>
+      <Container className="entryContainer">
         <>
           {this.state.showInput === false ? (
             <>
@@ -240,15 +242,31 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
             </>
           )}
         </>
-        {this.state.articles.map((article) => (
-          <>
-            {article.image}
-            <br />{" "}
-            <Button onClick={() => this.deleteArticle(article)}>Delete</Button>
-          </>
-        ))}
-        <Button onClick={this.props.history.goBack}>Back to Profile</Button>
-      </div>
+        <br />
+        Articles In Entry
+        <br />
+        <Container className='row gx-3 d-flex justify-content-center'>
+          {this.state.articles.map((article) => (
+            <div className="col-3 ">
+            <Card>
+              {article.title}
+              <a href={article.url}>Link to Article</a>
+              <CardImg className='newsPics' src={article.image} />
+              <br />{" "}
+              <Button onClick={() => this.deleteArticle(article)}>
+                Delete
+              </Button>
+            </Card>
+            </div>
+          ))}
+        </Container>
+        <i
+          className='fas fa-arrow-circle-left fa-2xl'
+          onClick={this.props.history.goBack}
+        >
+          <u>View All Entries</u>
+        </i>
+      </Container>
     );
   }
 }

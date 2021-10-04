@@ -4,7 +4,8 @@ import { GlobalStyles } from "./Components/GlobalStyles/Global";
 import { theme } from "./Components/GlobalStyles/Theme";
 import Burger from "./Components/Burger";
 import SideNav from "./Components/SideNav/SideNav";
-import "./App.css";
+import { Container } from "reactstrap";
+import './App.css'
 
 type AppProps = {};
 type AppState = {
@@ -31,7 +32,6 @@ class App extends Component<AppProps, AppState> {
     }
   }
 
-
   updateToken = (newToken: string) => {
     localStorage.setItem("token", newToken);
     this.setState({
@@ -46,8 +46,6 @@ class App extends Component<AppProps, AppState> {
     });
   };
 
-
-
   colorModeToggle = () => {
     this.setState({ colorMode: !this.state.colorMode });
   };
@@ -56,19 +54,17 @@ class App extends Component<AppProps, AppState> {
     this.setState({ open: !this.state.open });
   };
 
+  closeNav = () => {
+    this.setState({ open: false });
+  };
+
+  
   render() {
     const { token, open, colorMode } = this.state;
     return (
-      <>
-        {/* <div className='toggle-div'>
-          <input
-            className='toggle'
-            type='radio'
-            onClick={() => this.colorModeToggle()}
-          />
-        </div> */}
-
-        <div className='theme-switch-wrapper'>
+      <Container>
+        <div className='theme-switch-wrapper d-flex justify-content-center'>
+          <em>Conservative News Sources</em>
           <label className='theme-switch'>
             <input
               type='checkbox'
@@ -77,7 +73,7 @@ class App extends Component<AppProps, AppState> {
             />
             <div className='slider round'></div>
           </label>
-          <em>Enable Dark Mode!</em>
+          <em>Liberal News Sources</em>
         </div>
         <ThemeProvider theme={theme}>
           <GlobalStyles color={colorMode} />
@@ -89,6 +85,7 @@ class App extends Component<AppProps, AppState> {
             token={token}
             logout={this.clearToken}
             newToken={this.updateToken}
+            closeNav={this.closeNav}
           />
           <Burger
             colorMode={colorMode}
@@ -96,7 +93,7 @@ class App extends Component<AppProps, AppState> {
             setOpen={this.navToggle}
           />
         </ThemeProvider>
-      </>
+      </Container>
     );
   }
 }

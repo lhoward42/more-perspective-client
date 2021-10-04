@@ -47,7 +47,7 @@ class DeleteModal extends Component<PassedProps, DeleteModalState> {
         <Modal isOpen={this.props.modal} toggle={this.props.toggle}>
           <ModalHeader>
             <ModalBody>
-              inside
+              Are you sure you want to Delete this item?
               <Button
                 onClick={() => {
                   this.props.deleteEntry(this.props.entry);

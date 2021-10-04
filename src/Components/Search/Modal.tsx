@@ -19,6 +19,7 @@ type PassedProps = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
+    url: string
   }[];
   token: string | null;
 };
@@ -187,7 +188,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
     await this.createNewEntry();
     await this.confirmEntry();
   };
-
+  c;
   updateEntryName = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       entryName: e.target.value,
@@ -235,8 +236,8 @@ class ModalLink extends Component<PassedProps, ModalState> {
     return (
       <>
         {this.state.redirect === false ? (
-          <div>
-            <Button onClick={this.toggle}>Save to New Entry</Button>
+          <div >
+            <p className="d-flex justify-content-center mt-5"><Button onClick={this.toggle}>Save Selected Article New Entry</Button></p>
             <Modal isOpen={modal} toggle={this.toggle}>
               <ModalHeader color='danger'>Title</ModalHeader>
               <ModalBody>
@@ -259,27 +260,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
                 </Button>
                 <Button onClick={this.cancel}>Cancel</Button>
               </ModalFooter>
-            </Modal >
-            {/* <Modal isOpen={modal2} toggle={this.toggle}>
-              <ModalHeader color='danger'>Title</ModalHeader>
-              <ModalBody>Confirm Selected Articles To Save To Entry</ModalBody>
-              <ModalFooter>
-                {this.props.articles.map((article) => (
-                  <>
-                    {" "}
-                    {article.title}{" "}
-                    <Input
-                      type='checkbox'
-                      onChange={(e) => this.check(article, e)}
-                    />{" "}
-                  </>
-                ))}
-                <Button color='success' onClick={this.confirmEntry}>
-                  Save All Articles to Entry{" "}
-                </Button>
-                <Button onClick={this.cancel2}>Cancel</Button>
-              </ModalFooter>
-            </Modal> */}
+            </Modal>
           </div>
         ) : (
           <Redirect to='/profile' push />

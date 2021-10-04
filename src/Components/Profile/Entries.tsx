@@ -8,6 +8,7 @@ import {
   CardTitle,
   CardSubtitle,
   Button,
+  Container,
   Input,
 } from "reactstrap";
 
@@ -16,8 +17,10 @@ import DeleteModal from "./DeleteModal";
 // import EditEntry from "./EditEntry";
 
 type PassedProps = {
-  // history: any
   token: string | null;
+  open: boolean;
+  setOpen(): void;
+  closeNav(): void;
 };
 type ProfileStates = {
   existingEntries: {
@@ -145,17 +148,21 @@ class Profile extends Component<PassedProps, ProfileStates> {
 
   componentDidMount() {
     this.getEntries();
+    this.props.closeNav();
   }
 
   render() {
     const { existingEntries, modal, shouldRedirect, entry } = this.state;
     return (
-      <>
+      <Container>
         {shouldRedirect === true ? (
           <Redirect
             to={{
               pathname: "/profile/editEntry",
-              state: { entry: entry, token: this.props.token },
+              state: {
+                entry: entry,
+                token: this.props.token,
+              },
             }}
             push
           />
@@ -167,11 +174,13 @@ class Profile extends Component<PassedProps, ProfileStates> {
                   <th>Entry Name</th>
                   <th>Description</th>
                   <th>
-                    Select
+                    Edit
                     <br />
                     Entry
                   </th>
-                  <th></th>
+                  <th>Delete
+                    <br />
+                    Entry</th>
                 </tr>
               </thead>
               <tbody>
@@ -223,7 +232,7 @@ class Profile extends Component<PassedProps, ProfileStates> {
             </table>
           </>
         )}
-      </>
+      </Container>
     );
   }
 }
