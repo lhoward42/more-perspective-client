@@ -75,6 +75,26 @@ type SearchState = {
   check: string;
   checked: boolean;
   token: string;
+  conArticle: {
+    title: string;
+    author: string;
+    description: string;
+    content: string;
+    source: { name: string };
+    publishedAt: string;
+    urlToImage: string;
+    url: string;
+  }[];
+  libArticle: {
+    title: string;
+    author: string;
+    description: string;
+    content: string;
+    source: { name: string };
+    publishedAt: string;
+    urlToImage: string;
+    url: string;
+  }[];
 };
 
 class SearchNews extends Component<PassedProps, SearchState> {
@@ -91,6 +111,8 @@ class SearchNews extends Component<PassedProps, SearchState> {
       check: "",
       checked: false,
       token: "",
+      conArticle: [],
+      libArticle: []
     };
   }
 
@@ -109,6 +131,8 @@ class SearchNews extends Component<PassedProps, SearchState> {
       this.setState({
         articles: data.articles,
       });
+      this.conservFilter();
+      this.liberalFilter()
     } catch (err) {
       console.log(err, "error happened here");
     }
@@ -124,6 +148,23 @@ class SearchNews extends Component<PassedProps, SearchState> {
     });
   };
 
+  conservFilter = () => {
+    const conFilteredArr = this.state.articles.filter((conArticle) =>
+      conArticle.url.includes("https://nypost.com/")
+    );
+    this.setState({ conArticle: conFilteredArr });
+    console.info(this.state.conArticle);
+    console.info(this.state.articles);
+  };
+
+  liberalFilter = () => {
+    const libFilteredArr = this.state.articles.filter((libArticle) =>
+      libArticle.source.name.includes("CNN")
+    );
+    this.setState({ libArticle: libFilteredArr });
+    console.info(this.state.libArticle);
+    console.info(this.state.articles);
+  };
   //Flips the modal for update UpdateModal component
   toggle = () => {
     this.setState({ modal: !this.state.modal });
@@ -165,13 +206,10 @@ class SearchNews extends Component<PassedProps, SearchState> {
     if (this.state.displaySearchState.length > 0) {
       return this.state.displaySearchState.map((article, index) => (
         <Container>
-          <Card
-            key={index}
-            className='d-flex justify-content-between py-5 px-2'
-          >
+          <Card className='d-flex justify-content-between py-5 px-2'>
             <ListGroupItem
               className='news ListGroupItem d-flex align-items-center'
-              key={index}
+              key={article.title}
             >
               <a href={article.url}>Link to Article</a>
               {article.publishedAt}
@@ -189,39 +227,52 @@ class SearchNews extends Component<PassedProps, SearchState> {
         </Container>
       ));
     } else if (this.state.articles && this.props.colorMode === false) {
-      return this.state.articles.map((article, index) => (
+      return this.state.libArticle.map((article, index) => (
         <Container>
           <Card className='d-flex justify-content-between py-5 px-2'>
             {article.source.name === "CNN" ||
             article.source.name === "The Washington Post" ||
             article.source.name === "VOX" ? (
-              <ListGroupItem
-                className='newsLi d-flex align-items-center'
-                key={index}
-              >
-                <a href={article.url}>Link to Article</a>
-                {article.publishedAt}
-                {article.source.name} <br /> {article.title} <br />{" "}
-                {article.content}
-                <CardImg className='newsPics' src={article.urlToImage} />
-                <Input
-                  value='new'
-                  type='checkbox'
-                  onChange={(e) => {
-                    this.saveArticle(article, e.target.checked);
-                  }}
-                />
-                Add Article to Entry
+              <ListGroupItem className='newsLi d-flex justify-content-between'>
+                {" "}
+                <a href={article.url} className='d-flex align-self-center ms-2'>
+                  Link to Article
+                </a>
+                <Container className='d-flex flex-column'>
+                  <CardImg
+                    className='newsPics align-self-center'
+                    src={article.urlToImage}
+                  />
+                  <h3 className='d-flex align-self-center'>{article.title}</h3>{" "}
+                  <p className='d-flex align-self-center'>
+                    {article.source.name}
+                  </p>
+                  <p>{article.publishedAt}</p>
+                  <p>{article.content}</p>
+                  <br />
+                </Container>
+                <div className='mx-auto'>
+                  <Input
+                    className='mx-3'
+                    value='new'
+                    type='checkbox'
+                    onChange={(e) => {
+                      this.saveArticle(article, e.target.checked);
+                    }}
+                  />
+                  <br />
+                  <p className='mx-3'>Add Article to Entry</p>
+                </div>
               </ListGroupItem>
             ) : undefined}
           </Card>
         </Container>
       ));
     } else if (this.state.articles && this.props.colorMode === true) {
-      return this.state.articles.map((article, index) => (
+      return this.state.conArticle.map((article, index) => (
         <Container>
           <Card
-            key={index}
+            key={article.title}
             className='d-flex justify-content-between py-5 px-2'
           >
             {article.source.name === "New York Post" ||
@@ -233,11 +284,16 @@ class SearchNews extends Component<PassedProps, SearchState> {
                   Link to Article
                 </a>
                 <Container className='d-flex flex-column'>
-                  <CardImg className='newsPics' src={article.urlToImage} />
-                  {article.publishedAt}
-                  <br />
-                  {article.source.name} <br /> {article.title} <br />{" "}
-                  {article.content}
+                  <CardImg
+                    className='newsPics align-self-center'
+                    src={article.urlToImage}
+                  />
+                  <h3 className='d-flex align-self-center'>{article.title}</h3>{" "}
+                  <p className='d-flex align-self-center'>
+                    {article.source.name}
+                  </p>
+                  <p>{article.publishedAt}</p>
+                  <p>{article.content}</p>
                   <br />
                 </Container>
                 <div className='mx-auto'>
@@ -282,16 +338,20 @@ class SearchNews extends Component<PassedProps, SearchState> {
     return (
       <Container className='ms-1'>
         <>
-          <ModalLink
-            articles={this.state.checkedArticles}
-            token={this.props.token}
-          />
-          <br />
-          <UpdateModal
-            articles={this.state.checkedArticles}
-            token={this.props.token}
-          />
-          <br />
+          {this.props.token !== "" ? (
+            <>
+              <ModalLink
+                articles={this.state.checkedArticles}
+                token={this.props.token}
+              />
+              <UpdateModal
+                articles={this.state.checkedArticles}
+                token={this.props.token}
+              />{" "}
+            </>
+          ) : (
+            <></>
+          )}
           <Form className='d-flex justify-content-center mb-3'>
             <input
               placeholder='Search News'

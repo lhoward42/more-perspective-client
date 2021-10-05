@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
-import {
-  Button,
-  Input,
-  Card,
-  CardImg,
-  Container
-} from "reactstrap";
+import { Button, Input, Card, CardImg, Container } from "reactstrap";
 
 import APIURL from "../../Utils/Environment";
 
@@ -201,62 +195,88 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
   render() {
     const { modal } = this.state;
     return (
-      <Container className="entryContainer">
-        <>
+      <Container className='entryContainer mx-3 py-5 px-5'>
+        <div>
           {this.state.showInput === false ? (
-            <>
-              {this.props.location.state.entry.entryName}
-              <br />
-            </>
+            <div>
+              {this.state.entryName.length < 0 ? (
+                <div className='d-flex justify-content-center'>
+                  <h2>{this.props.location.state.entry.entryName}</h2>
+                  <br />
+                </div>
+              ) : (
+                <div className='d-flex justify-content-center'>
+                  <h2>{this.state.entryName}</h2>
+                  <br />
+                </div>
+              )}
+            </div>
           ) : (
-            <>
+            <div className='d-flex flex-column'>
               {" "}
-              {this.props.location.state.entry.entryName}
+              <h2>{this.props.location.state.entry.entryName}</h2>
               <Input
                 type='text'
-                defaultValue={this.props.location.state.entry.entryName}
                 placeholder='Edit Entry Name'
                 onChange={(e) => this.setName(e)}
               />
-            </>
+            </div>
           )}
           {this.state.showInput === false ? (
-            <>
-              {this.props.location.state.entry.description} <br />
-              <Button onClick={this.showUpdateInput}>Edit Entry</Button>{" "}
-            </>
+            <div>
+              {this.state.description.length < 0 ? (
+                <h5 className='d-flex justify-content-center'>
+                  {this.props.location.state.entry.description}
+                </h5>
+              ) : (
+                <h5 className='d-flex justify-content-center'>
+                  {this.state.description}
+                </h5>
+              )}
+              <br />
+              <div className='d-flex justify-content-center'>
+                <Button onClick={this.showUpdateInput}>Edit Entry</Button>{" "}
+              </div>
+            </div>
           ) : (
-            <>
-              {this.props.location.state.entry.description}{" "}
+            <div className='d-flex flex-column'>
+              {this.props.location.state.entry.description} <br />
               <Input
+                className=''
                 type='text'
                 placeholder='Edit Description'
                 onChange={(e) => this.setDescription(e)}
               />{" "}
-              <Button color='primary' onClick={this.updateEntry}>
-                Save Changes
-              </Button>
-              <Button color='primary' onClick={this.cancelEntryUpdate}>
-                Cancel
-              </Button>
-            </>
+              <div className='d-flex justify-content-center mt-3'>
+                <Button
+                  className='me-2'
+                  color='primary'
+                  onClick={this.updateEntry}
+                >
+                  Save Changes
+                </Button>
+                <Button color='primary' onClick={this.cancelEntryUpdate}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
           )}
-        </>
+        </div>
         <br />
-        Articles In Entry
+        <h3 className='d-flex justify-content-center'>Articles In Entry</h3>
         <br />
-        <Container className='row gx-3 d-flex justify-content-center'>
+        <Container className='row mx-3 px-3 d-flex justify-content-center'>
           {this.state.articles.map((article) => (
-            <div className="col-3 ">
-            <Card>
-              {article.title}
-              <a href={article.url}>Link to Article</a>
-              <CardImg className='newsPics' src={article.image} />
-              <br />{" "}
-              <Button onClick={() => this.deleteArticle(article)}>
-                Delete
-              </Button>
-            </Card>
+            <div className='col-3'>
+              <Card className='px-3 pb-5 pt-2'>
+                {article.title}
+                <a href={article.url}>Link to Article</a>
+                <CardImg className='newsPics mt-4' src={article.image} />
+                <br />{" "}
+                <Button onClick={() => this.deleteArticle(article)}>
+                  Delete
+                </Button>
+              </Card>
             </div>
           ))}
         </Container>

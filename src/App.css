@@ -7,6 +7,10 @@ img {
   max-width: 300px;
   max-height: 300px;
 }
+.ant-drawer-body p {
+  margin-bottom: 0;
+}
+
 .newsLi {
   list-style-type: none;
 }
@@ -18,7 +22,7 @@ img {
 .theme-switch-wrapper {
   display: flex;
   align-items: center;
-  top: 1000px;
+  /* background-color: darkgrey; */
 }
 .theme-switch {
   display: inline-block;
@@ -27,6 +31,9 @@ img {
   width: 60px;
 }
 
+em {
+  background-color: grey;
+}
 .theme-switch input {
   display: none;
 }
@@ -70,4 +77,9 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.login {
+  border: darkgray solid 1em;
+  background: darkgrey;
 }

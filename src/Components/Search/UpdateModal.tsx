@@ -273,7 +273,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
           />
         ) : (
           <Container>
-           <p className="d-flex justify-content-center"><Button onClick={this.getEntries}>Update Existing Entry</Button></p>
+           <p className="d-flex justify-content-center"><Button onClick={this.getEntries}>Update Existing Entry with Selected Articles</Button></p>
             <Modal isOpen={modal} toggle={this.toggle}>
               <ModalHeader color='danger'>Title</ModalHeader>
               <ModalBody>

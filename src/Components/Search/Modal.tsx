@@ -237,7 +237,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
       <>
         {this.state.redirect === false ? (
           <div >
-            <p className="d-flex justify-content-center mt-5"><Button onClick={this.toggle}>Save Selected Article New Entry</Button></p>
+            <p className="d-flex justify-content-center mt-5"><Button onClick={this.toggle}>Save Selected Articles New Entry</Button></p>
             <Modal isOpen={modal} toggle={this.toggle}>
               <ModalHeader color='danger'>Title</ModalHeader>
               <ModalBody>

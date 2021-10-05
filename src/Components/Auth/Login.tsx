@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import APIURL from "../../Utils/Environment";
 import { Redirect } from "react-router-dom";
-import { Card, Input, Button, Form } from 'reactstrap'
+import { Card, Input, Button, Form, Container } from "reactstrap";
+import "../../App.css";
 
 type PassedProps = {
   email: string;
@@ -68,19 +69,27 @@ class Login extends Component<PassedProps, LoginState> {
         {this.state.redirect === true ? (
           <Redirect to='/profile' />
         ) : (
-          <>
-            <Form>
-              <p></p>
+          <Container className='mt-5 pb-4 pt-2 px-4 login'>
+            <div>
+              <h3 className="d-flex justify-content-center mb-5 ">Login</h3>
+              <p className="mb-1">email</p>
               <Input type='email' onChange={(e) => checkEmail(e)} />
-              <p></p>
-              <Input
-                type='password'
-                onChange={(e) => setPassword(e)}
-              />
-              <Button type='submit' onClick={() => this.confirmAndSend()} >Login</Button>
-              <Button type='submit' onClick={() => toggle()} >Click to Register</Button>
-            </Form>
-          </>
+              <p className="mt-2 mb-1">password</p>
+              <Input type='password' onChange={(e) => setPassword(e)} />
+              <div className='d-flex justify-content-start'>
+                <Button
+                  className='ms-2 mt-4 mb-2'
+                  type='submit'
+                  onClick={() => this.confirmAndSend()}
+                >
+                  Login
+                </Button>
+              </div>
+              <a className='me-2 ms-2' onClick={() => toggle()}>
+                Click to Register
+              </a>
+            </div>
+          </Container>
         )}
       </>
     );

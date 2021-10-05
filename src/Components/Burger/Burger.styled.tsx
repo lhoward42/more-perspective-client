@@ -6,9 +6,9 @@ type PassedProps = {
 }
 
 export const StyledBurger = styled.button<PassedProps>`
-  position: absolute;
-  top: 5%;
-  left: 2.5rem;
+  position: fixed;
+  top: 3%;
+  left: .5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

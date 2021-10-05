@@ -5,7 +5,7 @@ import { theme } from "./Components/GlobalStyles/Theme";
 import Burger from "./Components/Burger";
 import SideNav from "./Components/SideNav/SideNav";
 import { Container } from "reactstrap";
-import './App.css'
+import "./App.css";
 
 type AppProps = {};
 type AppState = {
@@ -58,13 +58,12 @@ class App extends Component<AppProps, AppState> {
     this.setState({ open: false });
   };
 
-  
   render() {
     const { token, open, colorMode } = this.state;
     return (
-      <Container>
-        <div className='theme-switch-wrapper d-flex justify-content-center'>
-          <em>Conservative News Sources</em>
+      <Container className='ms-5 mx-5'>
+        <Container className='theme-switch-wrapper d-flex justify-content-center mx mt-3 my-3 py-3 px-4'>
+          <em className='me-2 px-3'>Conservative News Sources</em>
           <label className='theme-switch'>
             <input
               type='checkbox'
@@ -73,25 +72,29 @@ class App extends Component<AppProps, AppState> {
             />
             <div className='slider round'></div>
           </label>
-          <em>Liberal News Sources</em>
-        </div>
+          <em className='ms-2 px-3'>Liberal News Sources</em>
+        </Container>
         <ThemeProvider theme={theme}>
           <GlobalStyles color={colorMode} />
-
-          <SideNav
-            colorMode={colorMode}
-            isOpen={open}
-            setOpen={this.navToggle}
-            token={token}
-            logout={this.clearToken}
-            newToken={this.updateToken}
-            closeNav={this.closeNav}
-          />
-          <Burger
-            colorMode={colorMode}
-            isOpen={open}
-            setOpen={this.navToggle}
-          />
+          <div className=''>
+            <SideNav
+              colorMode={colorMode}
+              isOpen={open}
+              setOpen={this.navToggle}
+              token={token}
+              logout={this.clearToken}
+              newToken={this.updateToken}
+              closeNav={this.closeNav}
+            />
+          
+          <div className='mx-auto'>
+            <Burger
+              colorMode={colorMode}
+              isOpen={open}
+              setOpen={this.navToggle}
+            />
+          </div>
+          </div>
         </ThemeProvider>
       </Container>
     );
