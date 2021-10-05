@@ -95,4 +95,5 @@ input:checked + .slider:before {
 .login {
   border: darkgray solid 1em;
   background: darkgrey;
+  color: white;
 }
