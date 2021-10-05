@@ -46,7 +46,6 @@ img {
 .switchfont {
   background-color: grey;
   color: white;
-  border-radius: 15%;
 }
 .theme-switch input {
   display: none;
