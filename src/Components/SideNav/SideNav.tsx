@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Link, Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import { bool } from "prop-types";
 import { StyledMenu } from "./Menu.styled";
 import Portal from "../Auth/Portal";
 import SearchNews from "../Search/index";
 import Profile from "../Profile/Entries";
 import EditEntry from "../Profile/EditEntry";
+import Home from "../Home/Home";
 
 type SideNavProps = {
   token: string | null;
@@ -51,7 +51,13 @@ class SideNav extends Component<SideNavProps, SideNavState> {
 
           <Switch>
             <Route exact path='/'>
-              {/* <Home /> */}
+              <Home
+                colorMode={colorMode}
+                token={token}
+                open={this.props.isOpen}
+                setOpen={this.props.setOpen}
+                closeNav={this.props.closeNav}
+              />
             </Route>
             <Route exact path='/portal'>
               <Portal
@@ -80,10 +86,17 @@ class SideNav extends Component<SideNavProps, SideNavState> {
                 closeNav={this.props.closeNav}
               />
             </Route>
-            <Route exact path='/profile/editEntry' component={EditEntry} />
-            <Route exact path='/viewEntry'>
-              {/* <Entry /> */}
+            <Route exact path='/news'>
+              <SearchNews
+                colorMode={colorMode}
+                token={token}
+                open={this.props.isOpen}
+                setOpen={this.props.setOpen}
+                closeNav={this.props.closeNav}
+              />
             </Route>
+
+            <Route exact path='/profile/editEntry' component={EditEntry} />
           </Switch>
         </Router>
       </>

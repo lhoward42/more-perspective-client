@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import APIURL from "../../Utils/Environment";
 import { Redirect } from "react-router-dom";
-import { Card, Input, Button, Form, Container } from "reactstrap";
+import {  Input, Button, Container } from "reactstrap";
 import "../../App.css";
 
 type PassedProps = {
@@ -85,9 +85,9 @@ class Login extends Component<PassedProps, LoginState> {
                   Login
                 </Button>
               </div>
-              <a className='me-2 ms-2' onClick={() => toggle()}>
+              <Button className='me-2 ms-2' onClick={() => toggle()}>
                 Click to Register
-              </a>
+              </Button>
             </div>
           </Container>
         )}

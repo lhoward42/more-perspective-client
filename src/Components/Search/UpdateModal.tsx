@@ -6,7 +6,6 @@ import {
   ModalFooter,
   Button,
   Container,
-  Input,
   FormGroup,
   Dropdown,
   DropdownToggle,
@@ -256,7 +255,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
   }
 
   render() {
-    const {} = this.props;
+    
     const { modal, dropDownOpen, existingEntries, selectedEntry } = this.state;
     return (
       <>

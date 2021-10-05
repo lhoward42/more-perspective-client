@@ -1,15 +1,8 @@
 import { Component } from "react";
 import { Redirect } from "react-router-dom";
 import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
   Button,
   Container,
-  Input,
 } from "reactstrap";
 
 import APIURL from "../../Utils/Environment";
@@ -152,7 +145,7 @@ class Profile extends Component<PassedProps, ProfileStates> {
   }
 
   render() {
-    const { existingEntries, modal, shouldRedirect, entry } = this.state;
+    const { existingEntries, shouldRedirect, entry } = this.state;
     return (
       <Container>
         {shouldRedirect === true ? (

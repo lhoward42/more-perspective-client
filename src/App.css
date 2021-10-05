@@ -22,7 +22,8 @@ img {
 .theme-switch-wrapper {
   display: flex;
   align-items: center;
-  /* background-color: darkgrey; */
+  
+  
 }
 .theme-switch {
   display: inline-block;
@@ -30,9 +31,21 @@ img {
   position: relative;
   width: 60px;
 }
+.homepage {
+  color: white;
+
+}
+/* .search-bar {
+  border: 1px solid black;
+  padding:5%;
+  margin: 10%;
+} */
 
 em {
   background-color: grey;
+  color: white;
+  opacity: .8;
+  border-radius: 15%;
 }
 .theme-switch input {
   display: none;
@@ -64,7 +77,7 @@ em {
 }
 
 input:checked + .slider {
-  background-color: #66bb6a;
+  background-color: #bb9d22;
 }
 
 input:checked + .slider:before {

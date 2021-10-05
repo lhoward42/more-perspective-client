@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router";
 import { Button, Input, Card, CardImg, Container } from "reactstrap";
 
 import APIURL from "../../Utils/Environment";
@@ -193,7 +192,6 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
   };
 
   render() {
-    const { modal } = this.state;
     return (
       <Container className='entryContainer mx-3 py-5 px-5'>
         <div>

@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import ModalLink from "./Modal";
 import UpdateModal from "./UpdateModal";
 import {
-  Button,
   Input,
   Container,
   Card,
   CardImg,
   Form,
   ListGroupItem,
-  ListGroup,
 } from "reactstrap";
 
 type PassedProps = {
@@ -216,12 +214,12 @@ class SearchNews extends Component<PassedProps, SearchState> {
               {article.source.name} <br /> {article.title} <br />{" "}
               {article.content}{" "}
               <CardImg className='newsPics' src={article.urlToImage} />
-              <Input
+              {this.props.token !== "" ? <Input
                 type='checkbox'
                 onChange={(e) => {
                   this.saveArticle(article, e.target.checked);
                 }}
-              />
+              /> : <> </>}
             </ListGroupItem>
           </Card>
         </Container>
@@ -252,7 +250,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
                   <br />
                 </Container>
                 <div className='mx-auto'>
-                  <Input
+                  {this.props.token !== "" ? <> <Input
                     className='mx-3'
                     value='new'
                     type='checkbox'
@@ -261,7 +259,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
                     }}
                   />
                   <br />
-                  <p className='mx-3'>Add Article to Entry</p>
+                  <p className='mx-3'>Add Article to Entry</p></> : <></>}
                 </div>
               </ListGroupItem>
             ) : undefined}
@@ -297,7 +295,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
                   <br />
                 </Container>
                 <div className='mx-auto'>
-                  <Input
+                  {this.props.token !== "" ? <> <Input
                     className='mx-3'
                     value='new'
                     type='checkbox'
@@ -306,8 +304,8 @@ class SearchNews extends Component<PassedProps, SearchState> {
                     }}
                   />
                   <br />
-                  <p className='mx-3'>Add Article to Entry</p>
-                </div>
+                  <p className='mx-3'>Add Article to Entry</p> </> : <></> }
+                </div> 
               </ListGroupItem>
             ) : undefined}
           </Card>
@@ -352,7 +350,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
           ) : (
             <></>
           )}
-          <Form className='d-flex justify-content-center mb-3'>
+          <Form className='search-bar d-flex justify-content-center mb-3'>
             <input
               placeholder='Search News'
               onChange={(e) => this.setSearch(e.target.value)}

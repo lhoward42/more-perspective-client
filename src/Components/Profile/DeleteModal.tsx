@@ -1,11 +1,9 @@
 import { Component } from "react";
 import {
-  Button,
-  Input,
+  Button, 
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
 } from "reactstrap";
 
 type PassedProps = {

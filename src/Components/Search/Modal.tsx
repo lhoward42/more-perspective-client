@@ -231,8 +231,8 @@ class ModalLink extends Component<PassedProps, ModalState> {
   };
 
   render() {
-    const {} = this.props;
-    const { modal, modal2, entryName, description } = this.state;
+
+    const { modal, entryName, description } = this.state;
     return (
       <>
         {this.state.redirect === false ? (

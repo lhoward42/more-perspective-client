@@ -107,14 +107,14 @@ class Register extends Component<PassedProps, RegisterState> {
                 Register
               </Button >
               </div>
-              <a
+              <Button
                 className='existingUser'
                 type='submit'
                 onClick={() => toggle()}
               >
                 {" "}
                 Already Have a Login{" "}
-              </a>
+              </Button>
             
           </Container>
         </Form>
