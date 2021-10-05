@@ -34,8 +34,7 @@ export const StyledMenu = styled.nav<PassedProps>`
     padding: 2rem 0;
     font-weight: bold;
     letter-spacing: 0.5rem;
-    color: ${(props) =>
-      props.open ? theme.light.primaryLight : theme.dark.primaryLight};
+    color: ${(props) => (props.open ? "white" : "white")};
     text-decoration: none;
     transition: color 0.3s linear;
 
@@ -46,8 +45,7 @@ export const StyledMenu = styled.nav<PassedProps>`
     }
 
     &:hover {
-      color: ${(props) =>
-        props.open ? theme.light.primaryHover : theme.dark.primaryHover};
+      color: ${(props) => (props.open ? "#343a40" : "#343a40")};
     }
   }
 `;

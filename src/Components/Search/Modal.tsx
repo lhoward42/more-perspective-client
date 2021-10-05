@@ -242,12 +242,18 @@ class ModalLink extends Component<PassedProps, ModalState> {
               <ModalHeader color='danger'>Title</ModalHeader>
               <ModalBody>
                 <FormGroup>
+                  <p className='mb-1 mt-1 ms-1'>Entry Name</p>
                   <Input
+                    placeholder="Name Your Entry"
+                    className='ps-4 ms-1'
                     type='text'
                     value={entryName}
                     onChange={this.updateEntryName}
                   />
+                  <p className='mb-1 mt-1 ms-1'>Description</p>
                   <Input
+                  placeholder="Write a short description"
+                    className='ps-4 ms-1'
                     type='text'
                     value={description}
                     onChange={this.updateDescription}

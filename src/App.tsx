@@ -63,7 +63,7 @@ class App extends Component<AppProps, AppState> {
     return (
       <Container className='ms-5 mx-5'>
         <Container className='theme-switch-wrapper d-flex justify-content-center mx mt-3 my-3 py-3 px-4'>
-          <em className='me-2 px-3'>Conservative News Sources</em>
+          <em className='switchfont me-2 px-3'>Conservative News Sources</em>
           <label className='theme-switch'>
             <input
               type='checkbox'
@@ -72,7 +72,7 @@ class App extends Component<AppProps, AppState> {
             />
             <div className='slider round'></div>
           </label>
-          <em className='ms-2 px-3'>Liberal News Sources</em>
+          <em className='switchfont ms-2 px-3'>Liberal News Sources</em>
         </Container>
         <ThemeProvider theme={theme}>
           <GlobalStyles color={colorMode} />

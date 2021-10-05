@@ -351,7 +351,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
             <></>
           )}
           <Form className='search-bar d-flex justify-content-center mb-3'>
-            <input
+            <input 
               placeholder='Search News'
               onChange={(e) => this.setSearch(e.target.value)}
             />

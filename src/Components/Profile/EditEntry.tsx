@@ -266,7 +266,7 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
         <Container className='row mx-3 px-3 d-flex justify-content-center'>
           {this.state.articles.map((article) => (
             <div className='col-3'>
-              <Card className='px-3 pb-5 pt-2'>
+              <Card className='px-2 pb-5 pt-2'>
                 {article.title}
                 <a href={article.url}>Link to Article</a>
                 <CardImg className='newsPics mt-4' src={article.image} />

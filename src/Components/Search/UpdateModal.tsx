@@ -24,7 +24,7 @@ type PassedProps = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
-    url: string
+    url: string;
   }[];
   token: string | null;
 };
@@ -39,7 +39,7 @@ type ModalState = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
-    url: string
+    url: string;
   };
   existingEntries: {
     UserId: number;
@@ -95,7 +95,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         source: { name: "" },
         publishedAt: "",
         urlToImage: "",
-        url: ""
+        url: "",
       },
       entryId: 0,
       data: {
@@ -201,7 +201,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
         sourceName: article.source.name,
         publishedAt: article.publishedAt,
         image: article.urlToImage,
-        url: article.url
+        url: article.url,
       };
       let token = this.props.token
         ? this.props.token
@@ -255,7 +255,6 @@ class UpdateModal extends Component<PassedProps, ModalState> {
   }
 
   render() {
-    
     const { modal, dropDownOpen, existingEntries, selectedEntry } = this.state;
     return (
       <>
@@ -272,12 +271,16 @@ class UpdateModal extends Component<PassedProps, ModalState> {
           />
         ) : (
           <Container>
-           <p className="d-flex justify-content-center"><Button onClick={this.getEntries}>Update Existing Entry with Selected Articles</Button></p>
+            <p className='d-flex justify-content-center'>
+              <Button onClick={this.getEntries}>
+                Update Existing Entry with Selected Articles
+              </Button>
+            </p>
             <Modal isOpen={modal} toggle={this.toggle}>
               <ModalHeader color='danger'>Title</ModalHeader>
               <ModalBody>
-                <FormGroup>
-                  <Dropdown isOpen={dropDownOpen} toggle={this.setDropDownOpen}>
+                <FormGroup >
+                  <Dropdown className='d-flex flex-column' isOpen={dropDownOpen} toggle={this.setDropDownOpen}>
                     <DropdownToggle caret>Choose an Entry</DropdownToggle>
                     <DropdownMenu>
                       {existingEntries.map((entry) => (
@@ -290,8 +293,8 @@ class UpdateModal extends Component<PassedProps, ModalState> {
                         </DropdownItem>
                       ))}
                     </DropdownMenu>
-                    {selectedEntry.entryName} <br />
-                    {selectedEntry.description}
+                    <h5 className="d-flex justify-content-center">{selectedEntry.entryName}</h5> <br />
+                    <p className="d-flex justify-content-center">{selectedEntry.description}</p>
                   </Dropdown>
                 </FormGroup>
               </ModalBody>

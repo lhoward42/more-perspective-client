@@ -10,6 +10,10 @@ img {
 .ant-drawer-body p {
   margin-bottom: 0;
 }
+.homediv {
+  border: 5px solid lightgray;
+  border-radius: 20%;
+}
 
 .newsLi {
   list-style-type: none;
@@ -18,12 +22,9 @@ img {
   border: none !important;
   background-color: transparent !important;
 }
-
 .theme-switch-wrapper {
   display: flex;
   align-items: center;
-  
-  
 }
 .theme-switch {
   display: inline-block;
@@ -33,18 +34,18 @@ img {
 }
 .homepage {
   color: white;
-
 }
 /* .search-bar {
   border: 1px solid black;
   padding:5%;
   margin: 10%;
 } */
-
-em {
+.entryContainer {
+  color: white;
+}
+.switchfont {
   background-color: grey;
   color: white;
-  opacity: .8;
   border-radius: 15%;
 }
 .theme-switch input {
