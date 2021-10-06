@@ -199,7 +199,7 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
             <div>
               {this.state.entryName.length < 0 ? (
                 <div className='d-flex justify-content-center'>
-                  <h2>{this.props.location.state.entry.entryName}</h2>
+                  <h1>{this.props.location.state.entry.entryName}</h1>
                   <br />
                 </div>
               ) : (
@@ -212,7 +212,7 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
           ) : (
             <div className='d-flex flex-column'>
               {" "}
-              <h2>{this.props.location.state.entry.entryName}</h2>
+              <h1>{this.props.location.state.entry.entryName}</h1>
               <Input
                 type='text'
                 placeholder='Edit Entry Name'
@@ -261,13 +261,13 @@ class EditEntry extends Component<PassedProps, EditEntryState> {
           )}
         </div>
         <br />
-        <h3 className='d-flex justify-content-center'>Articles In Entry</h3>
+        <h4 className='d-flex justify-content-center'><u>Articles In Entry</u></h4>
         <br />
         <Container className='row mx-3 px-3 d-flex justify-content-center'>
           {this.state.articles.map((article) => (
             <div className='col-3'>
               <Card className='px-2 pb-5 pt-2'>
-                {article.title}
+                <h3 className="titles">{article.title}</h3>
                 <a href={article.url}>Link to Article</a>
                 <CardImg className='newsPics mt-4' src={article.image} />
                 <br />{" "}

@@ -19,7 +19,7 @@ type PassedProps = {
     source: { name: string };
     publishedAt: string;
     urlToImage: string;
-    url: string
+    url: string;
   }[];
   token: string | null;
 };
@@ -60,6 +60,14 @@ type ModalState = {
   id: number;
   redirect: boolean;
   checked: boolean;
+  entry: {
+    UserId: number;
+    createdAt: string;
+    description: string;
+    entryName: string;
+    id: number;
+    updatedAt: string;
+  };
 };
 
 class ModalLink extends Component<PassedProps, ModalState> {
@@ -93,6 +101,14 @@ class ModalLink extends Component<PassedProps, ModalState> {
       id: 0,
       redirect: false,
       checked: true,
+      entry: {
+        UserId: 0,
+        createdAt: "",
+        description: "",
+        entryName: "",
+        id: 0,
+        updatedAt: "",
+      },
     };
   }
 
@@ -136,6 +152,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
       this.setState({
         data: data,
         id: data.data.id,
+        entry: data.data,
       });
       console.log(data.data.id);
       console.log(this.state.id);
@@ -158,7 +175,10 @@ class ModalLink extends Component<PassedProps, ModalState> {
         sourceName: article.source.name,
         publishedAt: article.publishedAt,
         image: article.urlToImage,
+        url: article.url,
       };
+      console.log(articleData);
+
       try {
         let res = await fetch(`${APIURL}/article/create/${this.state.id}`, {
           method: "POST",
@@ -230,21 +250,28 @@ class ModalLink extends Component<PassedProps, ModalState> {
     }
   };
 
-  render() {
+  componentDidMount() {
+    console.log(this.props.articles);
+  }
 
+  render() {
     const { modal, entryName, description } = this.state;
     return (
       <>
         {this.state.redirect === false ? (
-          <div >
-            <p className="d-flex justify-content-center mt-5"><Button onClick={this.toggle}>Save Selected Articles New Entry</Button></p>
+          <div>
+            <p className='d-flex justify-content-center mt-5'>
+              <Button onClick={this.toggle}>
+                Save Selected Articles New Entry
+              </Button>
+            </p>
             <Modal isOpen={modal} toggle={this.toggle}>
               <ModalHeader color='danger'>Title</ModalHeader>
               <ModalBody>
                 <FormGroup>
                   <p className='mb-1 mt-1 ms-1'>Entry Name</p>
                   <Input
-                    placeholder="Name Your Entry"
+                    placeholder='Name Your Entry'
                     className='ps-4 ms-1'
                     type='text'
                     value={entryName}
@@ -252,7 +279,7 @@ class ModalLink extends Component<PassedProps, ModalState> {
                   />
                   <p className='mb-1 mt-1 ms-1'>Description</p>
                   <Input
-                  placeholder="Write a short description"
+                    placeholder='Write a short description'
                     className='ps-4 ms-1'
                     type='text'
                     value={description}
@@ -269,7 +296,16 @@ class ModalLink extends Component<PassedProps, ModalState> {
             </Modal>
           </div>
         ) : (
-          <Redirect to='/profile' push />
+          <Redirect
+            to={{
+              pathname: "/profile/editEntry",
+              state: {
+                entry: this.state.entry,
+                token: this.props.token,
+              },
+            }}
+            push
+          />
         )}
       </>
     );

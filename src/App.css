@@ -14,7 +14,9 @@ img {
   border: 5px solid lightgray;
   border-radius: 20%;
 }
-
+.titles {
+  color: black;
+}
 .newsLi {
   list-style-type: none;
 }

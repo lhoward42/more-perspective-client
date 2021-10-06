@@ -170,7 +170,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
   }) => {
     this.setState({
       entrySelection: entry.id,
-      selectedEntry: entry,
+      entry: entry,
     });
     let token = this.props.token
       ? this.props.token
@@ -255,7 +255,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
   }
 
   render() {
-    const { modal, dropDownOpen, existingEntries, selectedEntry } = this.state;
+    const { modal, dropDownOpen, existingEntries, entry } = this.state;
     return (
       <>
         {this.state.redirect === true ? (
@@ -263,7 +263,7 @@ class UpdateModal extends Component<PassedProps, ModalState> {
             to={{
               pathname: "/profile/editEntry",
               state: {
-                entry: this.state.selectedEntry,
+                entry: this.state.entry,
                 token: this.props.token,
               },
             }}
@@ -293,8 +293,8 @@ class UpdateModal extends Component<PassedProps, ModalState> {
                         </DropdownItem>
                       ))}
                     </DropdownMenu>
-                    <h5 className="d-flex justify-content-center">{selectedEntry.entryName}</h5> <br />
-                    <p className="d-flex justify-content-center">{selectedEntry.description}</p>
+                    <h5 className="d-flex justify-content-center">{entry.entryName}</h5> <br />
+                    <p className="d-flex justify-content-center">{entry.description}</p>
                   </Dropdown>
                 </FormGroup>
               </ModalBody>
