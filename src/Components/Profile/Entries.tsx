@@ -196,31 +196,9 @@ class Profile extends Component<PassedProps, ProfileStates> {
                         entry={this.state.entry}
                         deleteEntry={this.deleteEntry}
                       />
-                      {/* <>
-                      <Button
-                        onClick={() => this.selectEntryToDelete(entry)}>
-                          Delete
-                        </Button>
-                      <Modal isOpen={modal} toggle={this.toggle}>
-                       <ModalHeader>
-                         <ModalBody>
-                           inside
-                           <Button
-                        onClick={() => this.selectEntryToDelete(entry)}>
-                          Delete
-                        </Button>
-                        <Button
-                        onClick={() => this.selectEntryToDelete(entry)}>
-                          Cancel
-                        </Button>
-                         </ModalBody>
-                       </ModalHeader>
-                      </Modal>
-                      </> */}
                     </td>
                   </tr>
                 ))}
-                {/* <EditEntry token={this.props.token} entry={this.state.entry} /> */}
               </tbody>
             </table>
           </>

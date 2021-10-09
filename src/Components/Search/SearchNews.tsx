@@ -129,11 +129,11 @@ class SearchNews extends Component<PassedProps, SearchState> {
       );
       let data = await res.json();
       console.log(data.articles);
-      this.setState({
+      await this.setState({
         articles: data.articles,
       });
-      this.conservFilter();
-      this.liberalFilter();
+      await this.conservFilter();
+      await this.liberalFilter();
     } catch (err) {
       console.log(err, "error happened here");
     }
@@ -150,8 +150,9 @@ class SearchNews extends Component<PassedProps, SearchState> {
   };
 
   conservFilter = () => {
-    const conFilteredArr = this.state.articles.filter((conArticle) =>
-      conArticle.url.includes("https://nypost.com/")
+    const conFilteredArr = this.state.articles.filter(
+      (conArticle) =>
+      ["nypost.com", "foxnews.com", "theepochtimes.com"].some(address => conArticle.url.includes(address))
     );
     this.setState({ conArticle: conFilteredArr });
     console.info(this.state.conArticle);
@@ -160,7 +161,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
 
   liberalFilter = () => {
     const libFilteredArr = this.state.articles.filter((libArticle) =>
-      libArticle.source.name.includes("CNN")
+    libArticle.source.name.includes("CNN")
     );
     this.setState({ libArticle: libFilteredArr });
     console.info(this.state.libArticle);
@@ -383,8 +384,10 @@ class SearchNews extends Component<PassedProps, SearchState> {
                   />{" "}
                 </>
               ) : (
-                <div className="d-flex justify-content-center mb-3">
-                <Button className='mx-auto' onClick={() => this.toLogin()}>Login to Save Articles</Button>
+                <div className='d-flex justify-content-center mb-3'>
+                  <Button className='mx-auto' onClick={() => this.toLogin()}>
+                    Login to Save Articles
+                  </Button>
                 </div>
               )}
               <Form className='search-bar d-flex justify-content-center mb-3'>
