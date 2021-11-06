@@ -11,6 +11,7 @@ import {
   ListGroupItem,
 } from "reactstrap";
 import { Redirect } from "react-router-dom";
+import NEWSDATA from "../../Utils/NewsEnvironment";
 type PassedProps = {
   colorMode: boolean;
   token: string | null;
@@ -119,19 +120,19 @@ class SearchNews extends Component<PassedProps, SearchState> {
 
   //Fetches the News Data from NewsAPI
   async fetchNews() {
-    const API_KEY = `42f599c7ca48424caa76369e2aa73550`;
+    console.log(NEWSDATA);
+
     try {
-      let res = await fetch(
-        `https://newsapi.org/v2/everything?domains=cnn.com,foxnews.com,vox.com,nypost.com,theepochtimes.com,thewashingtonpost.com&apiKey=${API_KEY}`,
-        {
-          method: "GET",
-        }
-      );
+      let res = await fetch(`${NEWSDATA}`, {
+        method: "GET",
+      });
       let data = await res.json();
-      console.log(data.articles);
+      console.log(data.articles.articles);
       await this.setState({
         articles: data.articles,
       });
+      console.log(this.state.articles);
+      
       await this.conservFilter();
       await this.liberalFilter();
     } catch (err) {
@@ -150,9 +151,10 @@ class SearchNews extends Component<PassedProps, SearchState> {
   };
 
   conservFilter = () => {
-    const conFilteredArr = this.state.articles.filter(
-      (conArticle) =>
-      ["nypost.com", "foxnews.com", "theepochtimes.com"].some(address => conArticle.url.includes(address))
+    const conFilteredArr = this.state.articles.filter((conArticle) =>
+      ["nypost.com", "foxnews.com", "theepochtimes.com"].some((address) =>
+        conArticle.url.includes(address)
+      )
     );
     this.setState({ conArticle: conFilteredArr });
     console.info(this.state.conArticle);
@@ -161,7 +163,7 @@ class SearchNews extends Component<PassedProps, SearchState> {
 
   liberalFilter = () => {
     const libFilteredArr = this.state.articles.filter((libArticle) =>
-    libArticle.source.name.includes("CNN")
+      libArticle.source.name.includes("CNN")
     );
     this.setState({ libArticle: libFilteredArr });
     console.info(this.state.libArticle);
