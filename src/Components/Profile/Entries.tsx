@@ -177,7 +177,8 @@ class Profile extends Component<PassedProps, ProfileStates> {
                 </tr>
               </thead>
               <tbody>
-                {existingEntries.map((entry) => (
+                {existingEntries.length > 0 ? 
+                existingEntries.map((entry) => (
                   <tr key={entry.id} data-item={entry}>
                     <td>{entry.entryName}</td>
                     <td>{entry.description}</td>
@@ -198,7 +199,10 @@ class Profile extends Component<PassedProps, ProfileStates> {
                       />
                     </td>
                   </tr>
-                ))}
+                )) : 
+                <></>
+              
+              }
               </tbody>
             </table>
           </>
