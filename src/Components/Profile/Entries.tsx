@@ -1,9 +1,6 @@
 import { Component } from "react";
 import { Redirect } from "react-router-dom";
-import {
-  Button,
-  Container,
-} from "reactstrap";
+import { Button, Container } from "reactstrap";
 
 import APIURL from "../../Utils/Environment";
 import DeleteModal from "./DeleteModal";
@@ -148,64 +145,77 @@ class Profile extends Component<PassedProps, ProfileStates> {
     const { existingEntries, shouldRedirect, entry } = this.state;
     return (
       <Container>
-        {shouldRedirect === true ? (
+        {this.props.token !== undefined ? (
+          shouldRedirect === true ? (
+            <Redirect
+              to={{
+                pathname: "/profile/editEntry",
+                state: {
+                  entry: entry,
+                  token: this.props.token,
+                },
+              }}
+              push
+            />
+          ) : (
+            <>
+              <table className='table table-striped'>
+                <thead>
+                  <tr>
+                    <th>Entry Name</th>
+                    <th>Description</th>
+                    <th>
+                      Edit
+                      <br />
+                      Entry
+                    </th>
+                    <th>
+                      Delete
+                      <br />
+                      Entry
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {existingEntries.length > 0 ? (
+                    existingEntries.map((entry) => (
+                      <tr key={entry.id} data-item={entry}>
+                        <td>{entry.entryName}</td>
+                        <td>{entry.description}</td>
+                        <td>
+                          <Button onClick={() => this.selectEntry(entry)}>
+                            Edit
+                          </Button>
+                        </td>
+                        <td>
+                          <Button
+                            onClick={() => this.selectEntryToDelete(entry)}
+                          >
+                            Delete
+                          </Button>
+                          <DeleteModal
+                            toggle={this.deleteModalToggle}
+                            modal={this.state.modal}
+                            entry={this.state.entry}
+                            deleteEntry={this.deleteEntry}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </tbody>
+              </table>
+            </>
+          )
+        ) : (
           <Redirect
             to={{
-              pathname: "/profile/editEntry",
-              state: {
-                entry: entry,
-                token: this.props.token,
-              },
+              pathname: "/Portal",
             }}
             push
           />
-        ) : (
-          <>
-            <table className='table table-striped'>
-              <thead>
-                <tr>
-                  <th>Entry Name</th>
-                  <th>Description</th>
-                  <th>
-                    Edit
-                    <br />
-                    Entry
-                  </th>
-                  <th>Delete
-                    <br />
-                    Entry</th>
-                </tr>
-              </thead>
-              <tbody>
-                {existingEntries.length > 0 ? 
-                existingEntries.map((entry) => (
-                  <tr key={entry.id} data-item={entry}>
-                    <td>{entry.entryName}</td>
-                    <td>{entry.description}</td>
-                    <td>
-                      <Button onClick={() => this.selectEntry(entry)}>
-                        Edit
-                      </Button>
-                    </td>
-                    <td>
-                      <Button onClick={() => this.selectEntryToDelete(entry)}>
-                        Delete
-                      </Button>
-                      <DeleteModal
-                        toggle={this.deleteModalToggle}
-                        modal={this.state.modal}
-                        entry={this.state.entry}
-                        deleteEntry={this.deleteEntry}
-                      />
-                    </td>
-                  </tr>
-                )) : 
-                <></>
-              
-              }
-              </tbody>
-            </table>
-          </>
         )}
       </Container>
     );

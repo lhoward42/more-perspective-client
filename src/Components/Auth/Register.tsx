@@ -68,7 +68,7 @@ class Register extends Component<PassedProps, RegisterState> {
       });
       let data = await response.json();
       this.props.toggle();
-      console.log(data);
+      console.log(data, "successfully registered");
 
       return data;
     } catch (err) {
